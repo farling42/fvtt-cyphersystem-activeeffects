@@ -37,4 +37,4 @@ When **Active Token Effects** is installed, then the "ATL." prefix can be put on
 
 The **Dynamic Active Effects** module provides some additional support which can be helpful for creating active effects, such as being able to use something like `@pools.might.max' or more complicated functions as the Effect Value.
 
-_**NOTE:**_ You must go into the DAE module settings and check the box next to "Load DAE for Untested Game Systems".
+_**NOTE:**_ You must go into the DAE module settings and check the box next to "Load DAE for untested game systems".
