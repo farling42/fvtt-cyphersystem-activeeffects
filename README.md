@@ -25,11 +25,15 @@ The core Foundry functionality is then available for active effects, such as the
 
 ## Other Modules
 
-## [Active Token Effects](https://foundryvtt.com/packages/ATL)
+### [libWrapper](https://foundryvtt.com/packages/lib-wrapper)
+
+This is a hard-dependency that must be enabled. It allows this module to hook into and change some core functionality.
+
+### [Active Token Effects](https://foundryvtt.com/packages/ATL)
 
 When **Active Token Effects** is installed, then the "ATL." prefix can be put on a token attribute in order for the effect to modify the token on the owning actor.
 
-## [Dynamic Active Effects](https://foundryvtt.com/packages/dae)
+### [Dynamic Active Effects](https://foundryvtt.com/packages/dae)
 
 The **Dynamic Active Effects** module provides some additional support which can be helpful for creating active effects, such as being able to use something like `@pools.might.max' or more complicated functions as the Effect Value.
 
