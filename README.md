@@ -25,6 +25,12 @@ The core Foundry functionality is then available for active effects, such as the
 
 ## Other Modules
 
-When Active Token Effects is installed, then the "ATL." prefix can be put on a token attribute in order for the effect to modify the token on the owning actor.
+## [Active Token Effects](https://foundryvtt.com/packages/ATL)
 
-See the [Active Token Effects](https://foundryvtt.com/packages/ATL) page for more details.
+When **Active Token Effects** is installed, then the "ATL." prefix can be put on a token attribute in order for the effect to modify the token on the owning actor.
+
+## [Dynamic Active Effects](https://foundryvtt.com/packages/dae)
+
+The **Dynamic Active Effects** module provides some additional support which can be helpful for creating active effects, such as being able to use something like `@pools.might.max' or more complicated functions as the Effect Value.
+
+_**NOTE:**_ You must go into the DAE module settings and check the box next to "Load DAE for Untested Game Systems".
