@@ -58,8 +58,7 @@ async function render_inner(wrapper, data) {
     inner.find('nav.sheet-tabs').append(`<a class="item" data-tab="effects" style="flex: 0 0 45px;">${game.i18n.localize("CSACTIVEEFFECTS.Effects")}</a>`)
 
     // Add the details of the FX tab
-    const effects = await renderTemplate(EFFECT_TEMPLATE, data);
-    inner.find('section.sheet-body').append(`<div class='tab effects' data-group='primary' data-tab='effects'>${effects}</div>`);
+    inner.find('section.sheet-body').append(await renderTemplate(EFFECT_TEMPLATE, data));
 
     const thisdoc = data.document;
 
