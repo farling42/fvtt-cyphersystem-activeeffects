@@ -1,3 +1,18 @@
 {
-    "MODULE.hello": "hello"
+    "CSACTIVEEFFECTS": {
+        "Effects": "FX",
+        "EffectsTemporary": "Temporary Effects",
+        "EffectsPermanent": "Permanent Effects",
+        "ActiveEffects": {
+            "Add": "Add Active Effect",
+            "Source": "Source",
+            "ResetDuration": "Reset Duration",
+            "AddGuided": "Open Wizard",
+            "AddUnguided": "Add Empty Effect"
+        },
+        "EffectEnable": "Enable Effect",
+        "EffectDisable": "Disable Effect",
+        "EffectEdit": "Edit Effect",
+        "EffectDelete": "Delete Effect"
+    }
 }
