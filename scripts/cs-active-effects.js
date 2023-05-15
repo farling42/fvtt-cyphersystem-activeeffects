@@ -1,12 +1,14 @@
 const MODULE_NAME = "cyphersystem-activeeffects";
 
 Hooks.once('ready', async function() {
-    libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype.getData", actor_getData, libWrapper.WRAPPER)
+    libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype.getData",      actor_getData, libWrapper.WRAPPER)
+    libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
 
     if (!game.cyphersystem.CypherItemSheet)
         game.ui.notifications('Active Effects are not yet available in Item sheets (awaiting an update to the core Cypher System)')
     else {
-        libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype.getData",  item_getData,  libWrapper.WRAPPER)
+        libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype.getData",      item_getData,  libWrapper.WRAPPER)
+        libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
         Hooks.on("renderItemSheet",  render_sheet)
     }
 });
@@ -65,14 +67,22 @@ async function createActiveEffect(document) {
 
 const EFFECT_TEMPLATE = `modules/${MODULE_NAME}/templates/effects.html`;
 
-async function render_sheet(sheet, html, data) {
-    // Add new navigation tab
-    html.find('nav.sheet-tabs').append(`<a class="item" data-tab="effects" style="flex: 0 0 45px;">${game.i18n.localize("CSACTIVEEFFECTS.Effects")}</a>`)
+//
+// The TABS aren't set up properly if we wait until the render hook,
+// So we have to inject the HTML during the _renderInner,
+//
+async function render_inner(wrapper, data) {
+    let inner = await wrapper(data);
+    inner.find('nav.sheet-tabs').append(`<a class="item" data-tab="effects" style="flex: 0 0 45px;">${game.i18n.localize("CSACTIVEEFFECTS.Effects")}</a>`)
 
-    // Add actual tab
     let effects = await renderTemplate(EFFECT_TEMPLATE, data);
-    html.find('section.sheet-body').append(`<div class='tab effects' data-group='primary' data-tab='effects'>${effects}</div>`);
+    inner.find('section.sheet-body').append(`<div class='tab effects' data-group='primary' data-tab='effects'>${effects}</div>`);
 
+    return inner;
+}
+
+
+async function render_sheet(sheet, html, data) {
     // Provide support for the buttons for each individual effect.
     html.find('.effect-action').on('click', (ev) => {
         const a = ev.currentTarget;
