@@ -1,25 +1,29 @@
-const MODULE_NAME = "cyphersystem-activeeffects";
+const MODULE_NAME     = "cyphersystem-activeeffects";
+const EFFECT_TEMPLATE = `modules/${MODULE_NAME}/templates/effects.html`;
 
 Hooks.once('ready', async function() {
-    libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype.getData",      actor_getData, libWrapper.WRAPPER)
+    libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype.getData",      get_data,      libWrapper.WRAPPER)
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
 
     if (!game.cyphersystem.CypherItemSheet)
-        game.ui.notifications('Active Effects are not yet available in Item sheets (awaiting an update to the core Cypher System)')
+        ui.notifications.warn('Active Effects are not yet available in Item sheets (awaiting an update to the core Cypher System)')
     else {
-        libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype.getData",      item_getData,  libWrapper.WRAPPER)
+        libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype.getData",      get_data,      libWrapper.WRAPPER)
         libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
-        Hooks.on("renderItemSheet",  render_sheet)
     }
 });
 
+//
+// Add the temporary/permanent Active Effects to Item/Actor::getData()
+//
 
-// Set up data for the Actor/Item sheet
+async function get_data(wrapped, ...args) {
+    // Get core data
+    let data = await wrapped(...args);
 
-async function getEffects(base) {
-    const temporary = new Array();
-    const permanent = new Array();
-    for (const effect of base.effects) {
+    // Build our list of temporary & permanent effects
+    data.sheetEffects = { temporary: [], permanent: [] };
+    for (const effect of data.document.effects) {
         const val = {
             id: effect.id,
             label: effect.label,
@@ -31,63 +35,39 @@ async function getEffects(base) {
             val.origin = await effect._getSourceName();
         }
         if (effect.isTemporary)
-            temporary.push(val);
+            data.sheetEffects.temporary.push(val);
         else
-            permanent.push(val);
+            data.sheetEffects.permanent.push(val);
     }
-    return { temporary, permanent };
-}
 
-async function actor_getData(wrapped, ...args) {
-    let data = await wrapped(...args);
-    data.sheetEffects = await getEffects(this.actor)
-    return data;
-}
-
-async function item_getData(wrapped, ...args) {
-    let data = await wrapped(...args);
-    data.sheetEffects = await getEffects(this.item)
+    // Return the combined data object
     return data;
 }
 
 //
-// Rendering for Actor and Item sheets
-//
-
-async function createActiveEffect(document) {
-    const newEffect = await CONFIG.ActiveEffect.documentClass.create({
-        label: game.i18n.format('DOCUMENT.New', {
-            type: game.i18n.localize('DOCUMENT.ActiveEffect'),
-        }),
-        icon: "icons/svg/aura.svg",
-        transfer: true,
-    }, { parent: document });
-    newEffect?.sheet?.render(true);
-}
-
-const EFFECT_TEMPLATE = `modules/${MODULE_NAME}/templates/effects.html`;
-
+// Rendering for Actor and Item sheets:
 //
 // The TABS aren't set up properly if we wait until the render hook,
 // So we have to inject the HTML during the _renderInner,
 //
 async function render_inner(wrapper, data) {
+    // Get original HTML
     let inner = await wrapper(data);
+
+    // Add our entry to the NAV tab
     inner.find('nav.sheet-tabs').append(`<a class="item" data-tab="effects" style="flex: 0 0 45px;">${game.i18n.localize("CSACTIVEEFFECTS.Effects")}</a>`)
 
-    let effects = await renderTemplate(EFFECT_TEMPLATE, data);
+    // Add the details of the FX tab
+    const effects = await renderTemplate(EFFECT_TEMPLATE, data);
     inner.find('section.sheet-body').append(`<div class='tab effects' data-group='primary' data-tab='effects'>${effects}</div>`);
 
-    return inner;
-}
+    const thisdoc = data.document;
 
-
-async function render_sheet(sheet, html, data) {
-    // Provide support for the buttons for each individual effect.
-    html.find('.effect-action').on('click', (ev) => {
+    // Add event handlers for the stuff we've added to the FX tab
+    inner.find('.effect-action').on('click', (ev) => {
         const a = ev.currentTarget;
         const effectId = a.closest('li').dataset.effectId;
-        const effect = sheet.object.effects.get(effectId, { strict: true });
+        const effect = thisdoc.effects.get(effectId, { strict: true });
         const action = a.dataset.action;
         switch (action) {
           case 'edit':
@@ -101,7 +81,7 @@ async function render_sheet(sheet, html, data) {
             break;
           case 'open-origin':
             fromUuid(effect.origin).then((item) => {
-                sheet.object.items.get(item.id)?.sheet?.render(true);
+                thisdoc.items.get(item.id)?.sheet?.render(true);
             });
             break;
           default:
@@ -111,9 +91,16 @@ async function render_sheet(sheet, html, data) {
     });
 
     // Provide support for the button in the active effects tab.
-    html.find('.effect-add').on('click', (ev) => {
-        createActiveEffect(sheet.object);
+    inner.find('.effect-add').on('click', async (ev) => {
+        const newEffect = await CONFIG.ActiveEffect.documentClass.create({
+            label: game.i18n.format('DOCUMENT.New', {
+                type: game.i18n.localize('DOCUMENT.ActiveEffect'),
+            }),
+            icon: "icons/svg/aura.svg",
+            transfer: true,
+        }, { parent: thisdoc });
+        newEffect?.sheet?.render(true);
     })
-}
 
-Hooks.on("renderActorSheet", render_sheet)
+    return inner;
+}
