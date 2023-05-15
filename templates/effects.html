@@ -1,5 +1,5 @@
 {{#*inline "effectPartial"}}
-<li class="flexrow item effect {{#if effect.disabled}}disabled-effect{{/if}}" data-effect-id="{{effect.id}}">
+<li class="flexrow effect {{#if effect.disabled}}disabled-effect{{/if}}" data-effect-id="{{effect.id}}">
     <img src="{{effect.icon}}" alt="{{effect.label}}" class="effect-icon" />
     <span class="effect-label">{{effect.label}}</span>
     {{#if effect.origin}}
@@ -25,19 +25,17 @@
 {{/inline}}
 
 <div class='tab effects' data-group='primary' data-tab='effects'>
-    <div class="flexrow">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span class="effect-add">
-            <button type='menu' class='add-effect'>
+    <div class="flexrow" style="display: grid; grid-template-columns: 70% 30%;">
+        <div></div>
+        <div class="effect-add">
+            <button class='add-effect'>
                 <i class='fa-solid fa-plus'></i>{{localize 'CSACTIVEEFFECTS.ActiveEffects.Add'}}
             </button>
-        </span>
+        </div>
     </div>
     <div class="flexrow">
         <ol class="effects-list">
-            <li class="flexrow effect-header">
+            <li class="effect flexrow effect-header">
                 <div class="effect-label">{{localize 'CSACTIVEEFFECTS.EffectsTemporary'}}</div>
                 <div class="effect-source">{{localize "CSACTIVEEFFECTS.ActiveEffects.Source"}}</div>
                 <div class="effect-controls"></div>
@@ -47,7 +45,7 @@
     </div>
     <div class="flexrow">
         <ol class="effects-list">
-            <li class="flexrow effect-header">
+            <li class="effect flexrow effect-header">
                 <div class="effect-label">{{localize 'CSACTIVEEFFECTS.EffectsPermanent'}}</div>
                 <div class="effect-source">{{localize "CSACTIVEEFFECTS.ActiveEffects.Source"}}</div>
                 <div class="effect-controls"></div>

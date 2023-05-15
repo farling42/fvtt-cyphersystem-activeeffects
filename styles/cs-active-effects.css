@@ -1,21 +1,34 @@
 .cyphersystem .effects-list {
-    zz-border-top: 1px solid #BBB;
     list-style: none;
     margin: 7px 0;
-    padding: 0
+    padding: 0 5px;
+    overflow-y: auto;
 }
 
-.cyphersystem .effects-list li {
-    margin-bottom: 2px;
-    padding-bottom: 2px;
+.cyphersystem .effects-list .effect-header {
+    font-weight: bold;
 }
 
 .cyphersystem .effects-list .effect {
+    padding: 3px 5px;
+}
+
+.cyphersystem .effects-list .effect~.effect {
     border-top: 1px solid #BBB;
 }
 
 .cyphersystem .effects-list .effect:last-child {
     border-bottom: 1px solid #BBB;
+}
+
+.cyphersystem .effects.active .effect,
+.cyphersystem .effects.active .effect-header {
+    align-items: center;
+    -moz-column-gap: 2px;
+    column-gap: 2px;
+    display: grid;
+    grid-template-columns: 40px 4fr 2fr 1fr;
+    padding: 2px 5px
 }
 
 .cyphersystem .effects-list .effect-icon {
@@ -45,10 +58,6 @@
     cursor: pointer
 }
 
-.cyphersystem .effects-list .fa-power-off {
-    color: #000
-}
-
 .cyphersystem .effects-list .disabled-effect .effect-label {
     text-decoration: line-through;
     text-decoration-thickness: 2px
@@ -70,35 +79,15 @@
 }
 
 .cyphersystem .add-effect {
-    color: var(--add-button-color)
+    color: var(--add-button-color);
+    line-height: 1.4
 }
 
-.cyphersystem .effects.active .effect-add {
+.cyphersystem .tab.effects .effect-add {
     display: block;
-    margin-left: auto;
-    padding-left: 3rem;
-    width: -moz-fit-content;
-    width: fit-content
-}
-
-.cyphersystem .effects.active .effect,
-.cyphersystem .effects.active .effect-header {
-    align-items: center;
-    -moz-column-gap: 2px;
-    column-gap: 2px;
-    display: grid;
-    grid-template-columns: 40px 4fr 2fr 1fr;
-    padding: 2px 5px
-}
-
-.cyphersystem .effects.active .effect-header {
-    font-weight: bold;
-    background-position: 0;
-    background-repeat: no-repeat;
-    background-size: 100%;
-    border-radius: 5px;
-    line-height: 1.4;
-    text-align: center
+    zz-margin-left: auto;
+    zz-padding-left: 3rem;
+    width: auto
 }
 
 .cyphersystem .effects.active .effect-header .effect-label {
