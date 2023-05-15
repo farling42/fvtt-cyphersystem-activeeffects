@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## 0.1.4
+## 1.0.0
 
+- First public release.
 - Items now have the FX tab available.
 
 ## 0.1.3
