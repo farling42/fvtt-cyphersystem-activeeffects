@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.1.0
+
+- Provide a module option which will automatically change a pool's current value whenever the pool's maximum value is changed (the change in value of the pool's maximum will be added/subtracted from the pool's current value). It does not prevent the value going negative.
+
 ## 1.0.0
 
 - First public release.

@@ -29,7 +29,8 @@
   }]
 },
   "esmodules": [
-    "scripts/cs-active-effects.js"
+    "scripts/cs-active-effects.js",
+    "scripts/cs-pools.js"
   ],
   "styles": [
     "styles/cs-active-effects.css"
