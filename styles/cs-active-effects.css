@@ -63,6 +63,10 @@
     text-decoration-thickness: 2px
 }
 
+.cyphersystem .effects-list .suppressed-effect {
+    color: #CCC;
+}
+
 .cyphersystem .add-effect:focus,
 .cyphersystem .add-effect:hover {
     color: #3b3b3b

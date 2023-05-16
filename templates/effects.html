@@ -1,5 +1,5 @@
 {{#*inline "effectPartial"}}
-<li class="flexrow effect {{#if effect.disabled}}disabled-effect{{/if}}" data-effect-id="{{effect.id}}">
+<li class="flexrow effect{{#if effect.disabled}} disabled-effect{{/if}}{{#if effect.suppressed}} suppressed-effect{{/if}}" data-effect-id="{{effect.id}}">
     <img src="{{effect.icon}}" alt="{{effect.label}}" class="effect-icon" />
     <span class="effect-label">{{effect.label}}</span>
     {{#if effect.origin}}
@@ -11,6 +11,7 @@
     {{/if}}
     <span class="effect-controls">
         <button type="button" class="effect-action" data-action="toggle" data-toggle="disabled"
+            {{#if effect.suppressed}}readonly{{/if}}
             data-tooltip="{{#if effect.disabled}}CSACTIVEEFFECTS.EffectEnable{{else}}CSACTIVEEFFECTS.EffectDisable{{/if}}">
             <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
         </button>

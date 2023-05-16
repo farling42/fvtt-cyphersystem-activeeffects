@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.0
+
+- When an Item is archived/dearchived, or a recursion or tag is enabled/disabled, ensure that the owned effects on the actor are enabled/disabled accordingly.
+
 ## 1.1.0
 
 - Provide a module option which will automatically change a pool's current value whenever the pool's maximum value is changed (the change in value of the pool's maximum will be added/subtracted from the pool's current value). It does not prevent the value going negative.

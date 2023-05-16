@@ -23,9 +23,12 @@ Simply enable the module within your Cypher System world and a new "FX" tab will
 
 The core Foundry functionality is then available for active effects, such as the effects on Items being inherited by the owning Actor.
 
+Effects placed on Items which are archived, or tags/recursions which are not active, will have their effects automatically disabled/enabled when their state changes.
+
 ### Option: Modify pool's current value whenever maximum is changed
 
 There is a module option which apply any change in a pool's maximum value also to the pool's current value. (So when an effect or the user changes the maximum value, the pool will maintain the same number of USED points by adjusting the current value accordingly.)
+(NOTE: This interferes with the "Stat Modifiers" in recursions and exclusive tags, so should probably be disabled if playing The Strange.)
 
 ## Other Modules
 

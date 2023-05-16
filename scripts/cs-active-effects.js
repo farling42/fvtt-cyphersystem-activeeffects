@@ -26,7 +26,7 @@ async function get_data(wrapped, ...args) {
             label: effect.label,
             icon: effect.icon,
             disabled: effect.disabled,
-            //favorite: effect.getFlag('swade', 'favorite') ?? false,
+            suppressed: effect.isSuppressed
         };
         if (effect.origin) {
             val.origin = await effect._getSourceName();
