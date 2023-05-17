@@ -1,129 +1,19 @@
-.cyphersystem .effects-list {
-    list-style: none;
-    margin: 7px 0;
-    padding: 0 5px;
-    overflow-y: auto;
-}
-
-.cyphersystem .effects-list .effect-header {
-    font-weight: bold;
-}
-
-.cyphersystem .effects-list .effect {
-    padding: 3px 5px;
-}
-
-.cyphersystem .effects-list .effect~.effect {
-    border-top: 1px solid #BBB;
-}
-
-.cyphersystem .effects-list .effect:last-child {
-    border-bottom: 1px solid #BBB;
-}
-
-.cyphersystem .effects.active .effect,
-.cyphersystem .effects.active .effect-header {
+.cyphersystem .effects.active .effect {
     align-items: center;
     -moz-column-gap: 2px;
     column-gap: 2px;
     display: grid;
-    grid-template-columns: 40px 4fr 2fr 1fr;
+    grid-template-columns: 4fr 2fr 1fr;
     padding: 2px 5px
 }
 
-.cyphersystem .effects-list .effect-icon {
+.cyphersystem .effects-list .effect .effect-image {
+    margin-left: -24px;
     border: none;
-    flex: 0 0 24px;
-    height: 24px;
-    margin-right: 2px
-}
-
-.cyphersystem .effects-list .effect-label {
-    flex: 1;
-    line-height: 1.4;
-    text-overflow: ellipsis;
-    white-space: nowrap
-}
-
-.cyphersystem .effects-list .effect-controls {
-    display: flex;
-    flex: 0 0 60px;
-    gap: .75ch;
-    justify-content: flex-end;
-    line-height: 1.4
-}
-
-.cyphersystem .effects-list .effect-controls a,
-.cyphersystem .effects-list .effect-controls button {
-    cursor: pointer
-}
-
-.cyphersystem .effects-list .disabled-effect .effect-label {
-    text-decoration: line-through;
-    text-decoration-thickness: 2px
-}
-
-.cyphersystem .effects-list .suppressed-effect {
-    color: #CCC;
-}
-
-.cyphersystem .add-effect:focus,
-.cyphersystem .add-effect:hover {
-    color: #3b3b3b
-}
-
-.cyphersystem .effects.active .effect-header .effect-label {
-    grid-column: 1/span 2;
-    padding-left: 5px;
-    text-align: left
-}
-
-.cyphersystem .effects.active .effect-header .effect-controls {
-    justify-content: space-around
-}
-
-.cyphersystem .add-effect {
-    color: var(--add-button-color);
-    line-height: 1.4
-}
-
-.cyphersystem .tab.effects .effect-add {
-    display: block;
-    zz-margin-left: auto;
-    zz-padding-left: 3rem;
-    width: auto
-}
-
-.cyphersystem .effects.active .effect-header .effect-label {
-    grid-column: 1/span 2;
-    padding-left: 5px;
-    text-align: left
-}
-
-.cyphersystem .effects.active .effect-header .effect-controls {
-    justify-content: space-around
-}
-
-.cyphersystem .effect button {
-    line-height: 1.4
-}
-
-.cyphersystem .effects.active .effect-label {
-    text-align: left
+    flex: 0 0 3em;
+    height: 1em;
 }
 
 .cyphersystem .effects.active .effect-source {
-    font-weight: bold;
     text-align: center
-}
-
-.cyphersystem .effects.active .effect-controls {
-    display: flex;
-    gap: initial;
-    justify-content: flex-end;
-    text-align: center
-}
-
-.cyphersystem .effects.active .effect-controls>* {
-    padding: 0
 }

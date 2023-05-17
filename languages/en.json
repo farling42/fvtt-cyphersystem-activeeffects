@@ -3,6 +3,7 @@
         "Effects": "FX",
         "EffectsTemporary": "Temporary Effects",
         "EffectsPermanent": "Permanent Effects",
+        "EffectsInactive":  "Inactive Effects",
         "ActiveEffects": {
             "Add": "Add Active Effect",
             "Source": "Source",

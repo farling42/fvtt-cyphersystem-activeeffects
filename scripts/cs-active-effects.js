@@ -22,19 +22,21 @@ async function get_data(wrapped, ...args) {
     let data = await wrapped(...args);
 
     // Build our list of temporary & permanent effects
-    data.sheetEffects = { temporary: [], permanent: [] };
+    data.sheetEffects = { temporary: [], permanent: [], inactive: [] };
     for (const effect of data.document.effects) {
         const val = {
             id: effect.id,
-            label: effect.label,
-            icon: effect.icon,
+            name: effect.label,
+            image: effect.icon,
             disabled: effect.disabled,
             suppressed: effect.isSuppressed
         };
         if (effect.origin) {
             val.origin = await effect._getSourceName();
         }
-        if (effect.isTemporary)
+        if (effect.disabled)
+            data.sheetEffects.inactive.push(val);
+        else if (effect.isTemporary)
             data.sheetEffects.temporary.push(val);
         else
             data.sheetEffects.permanent.push(val);
@@ -63,31 +65,31 @@ async function render_inner(wrapper, data) {
     const thisdoc = data.document;
 
     // Add event handlers for the stuff we've added to the FX tab
-    inner.find('.effect-action').on('click', (ev) => {
-        const a = ev.currentTarget;
-        const effectId = a.closest('li').dataset.effectId;
+    inner.find('.effect-toggle').on('click', (ev) => {
+        const effectId = ev.currentTarget.closest('li').dataset.effectId;
         const effect = thisdoc.effects.get(effectId, { strict: true });
-        const action = a.dataset.action;
-        switch (action) {
-          case 'edit':
-            effect.sheet?.render(true);
-            break;
-          case 'delete':
-            effect.deleteDialog();
-            break;
-          case 'toggle':
-            effect.update({ disabled: !effect?.disabled });
-            break;
-          case 'open-origin':
-            fromUuid(effect.origin).then((item) => {
-                thisdoc.items.get(item.id)?.sheet?.render(true);
-            });
-            break;
-          default:
-            console.warn(`The action ${action} is not currently supported`);
-            break;
-        }
-    });
+        effect.update({ disabled: !effect?.disabled });
+    })
+
+    inner.find('.effect-edit').on('click', (ev) => {
+        const effectId = ev.currentTarget.closest('li').dataset.effectId;
+        const effect = thisdoc.effects.get(effectId, { strict: true });
+        effect.sheet?.render(true);
+    })
+
+    inner.find('.effect-delete').on('click', (ev) => {
+        const effectId = ev.currentTarget.closest('li').dataset.effectId;
+        const effect = thisdoc.effects.get(effectId, { strict: true });
+        effect.deleteDialog();
+    })
+
+    inner.find('.effect-open-origin').on('click', (ev) => {
+        const effectId = ev.currentTarget.closest('li').dataset.effectId;
+        const effect = thisdoc.effects.get(effectId, { strict: true });
+        fromUuid(effect.origin).then((item) => {
+            thisdoc.items.get(item.id)?.sheet?.render(true);
+        });
+    })
 
     // Provide support for the button in the active effects tab.
     inner.find('.effect-add').on('click', async (ev) => {

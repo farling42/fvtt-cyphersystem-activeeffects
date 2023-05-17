@@ -1,27 +1,27 @@
 {{#*inline "effectPartial"}}
-<li class="flexrow effect{{#if effect.disabled}} disabled-effect{{/if}}{{#if effect.suppressed}} suppressed-effect{{/if}}" data-effect-id="{{effect.id}}">
-    <img src="{{effect.icon}}" alt="{{effect.label}}" class="effect-icon" />
-    <span class="effect-label">{{effect.label}}</span>
-    {{#if effect.origin}}
-    <button type="button" class="effect-source effect-action" data-action="open-origin">
-        {{effect.origin}}
-    </button>
-    {{else}}
-    <span class="effect-source"></span>
-    {{/if}}
-    <span class="effect-controls">
-        <button type="button" class="effect-action" data-action="toggle" data-toggle="disabled"
-            {{#if effect.suppressed}}readonly{{/if}}
-            data-tooltip="{{#if effect.disabled}}CSACTIVEEFFECTS.EffectEnable{{else}}CSACTIVEEFFECTS.EffectDisable{{/if}}">
+<li class="item effect flexrow" data-effect-id="{{effect.id}}">
+    <h4 class="item-name effect-name flexrow">
+        <img class="item-image effect-image" src="{{effect.image}}" alt="{{effect.name}}"/>
+        {{effect.name}}
+    </h4>
+    <div class="effect-source">
+        {{#if effect.origin}}
+        <a class="effect-source effect-open-origin">
+            {{effect.origin}}
+        </a>    
+        {{/if}}
+    </div>
+    <div class="item-controls effect-controls">
+        <a class="item-control effect-toggle" data-action="toggle" data-toggle="disabled" title="{{#if effect.disabled}}CSACTIVEEFFECTS.EffectEnable{{else}}CSACTIVEEFFECTS.EffectDisable{{/if}}">
             <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
-        </button>
-        <button type="button" class="effect-action" data-action="edit" data-tooltip="CSACTIVEEFFECTS.EffectEdit">
-            <i class="fas fa-edit"></i>
-        </button>
-        <button type="button" class="effect-action" data-action="delete" data-tooltip="CSACTIVEEFFECTS.EffectDelete">
+        </a>
+        <a class="item-control effect-edit" data-action="edit" title="CSACTIVEEFFECTS.EffectEdit">
+            <i class="fas fa-file-alt"></i>
+        </a>
+        <a class="item-control effect-delete" data-action="delete" title="CSACTIVEEFFECTS.EffectDelete">
             <i class="fas fa-trash"></i>
-        </button>
-    </span>
+        </a>
+    </div>
 </li>
 {{/inline}}
 
@@ -35,9 +35,9 @@
         </div>
     </div>
     <div class="flexrow">
-        <ol class="effects-list">
-            <li class="effect flexrow effect-header">
-                <div class="effect-label">{{localize 'CSACTIVEEFFECTS.EffectsTemporary'}}</div>
+        <ol class="items-list effects-list">
+            <li class="item-header item effect flexrow">
+                <div class="item-name effect-name">{{localize 'CSACTIVEEFFECTS.EffectsTemporary'}}</div>
                 <div class="effect-source">{{localize "CSACTIVEEFFECTS.ActiveEffects.Source"}}</div>
                 <div class="effect-controls"></div>
             </li>
@@ -45,13 +45,23 @@
         </ol>
     </div>
     <div class="flexrow">
-        <ol class="effects-list">
-            <li class="effect flexrow effect-header">
-                <div class="effect-label">{{localize 'CSACTIVEEFFECTS.EffectsPermanent'}}</div>
+        <ol class="items-list effects-list">
+            <li class="item-header item effect flexrow">
+                <div class="item-name effect-name">{{localize 'CSACTIVEEFFECTS.EffectsPermanent'}}</div>
                 <div class="effect-source">{{localize "CSACTIVEEFFECTS.ActiveEffects.Source"}}</div>
                 <div class="effect-controls"></div>
             </li>
             {{#each sheetEffects.permanent}}{{> effectPartial effect=this}}{{/each}}
+        </ol>
+    </div>
+    <div class="flexrow">
+        <ol class="items-list effects-list">
+            <li class="item-header item effect flexrow">
+                <div class="item-name effect-name">{{localize 'CSACTIVEEFFECTS.EffectsInactive'}}</div>
+                <div class="effect-source">{{localize "CSACTIVEEFFECTS.ActiveEffects.Source"}}</div>
+                <div class="effect-controls"></div>
+            </li>
+            {{#each sheetEffects.inactive}}{{> effectPartial effect=this}}{{/each}}
         </ol>
     </div>
 </div>

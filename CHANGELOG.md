@@ -3,6 +3,7 @@
 ## 1.2.0
 
 - When an Item is archived/dearchived, or a recursion or tag is enabled/disabled, ensure that the owned effects on the actor are enabled/disabled accordingly.
+- Rework effects panel to follow the styling of the rest of the Actor/Item sheet more precisely.
 
 ## 1.1.0
 
