@@ -23,7 +23,7 @@ Hooks.on("updateItem", async (item, changes, options, userId) => {
     const actor=item.parent;
     if (actor && (changes.system?.active !== undefined || changes.system?.archived !== undefined)) {
         let fxchanges=[]
-        console.debug(`updateItem: checking active/archived state of '${item.name}'`)
+        //console.debug(`updateItem: checking active/archived state of '${item.name}'`)
         // note that item.system.active might be undefined
         getChangedEffects(fxchanges, actor, item, (item.system.active === false || item.system.archived))
         if (fxchanges.length > 0) {

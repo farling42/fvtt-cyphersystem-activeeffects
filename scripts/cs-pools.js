@@ -1,7 +1,12 @@
+//
+// Automatically update the VALUE of a pool when the MAX is changed.
+//
+// Ideally we would hook onto preUpdateActor, but this is not triggered when an ActiveEffect changes the MAX value.
+//
 const MODULE_NAME = "cyphersystem-activeeffects";
 
 Hooks.once("init", () => {
-    game.settings.register(MODULE_NAME, "rollButtons", {
+    game.settings.register(MODULE_NAME, "adjustValueFromMax", {
         name: game.i18n.localize("CSACTIVEEFFECTS.AdjustValueWithMaxName"),
         hint: game.i18n.localize("CSACTIVEEFFECTS.AdjustValueWithMaxHint"),
         scope: "world",
@@ -11,43 +16,35 @@ Hooks.once("init", () => {
         requiresReload: true
     });
 
-    if (game.settings.get(MODULE_NAME, "rollButtons")) {
-        Hooks.once('ready', () => {
-            libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActor.prototype.prepareData", prepare_data, libWrapper.WRAPPER)
-        })
+    if (game.settings.get(MODULE_NAME, "adjustValueFromMax")) {
+        libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActor.prototype.applyActiveEffects", apply_active_effects, libWrapper.WRAPPED)
     }
 })
 
-function prepare_data(wrapper, ...args) {
-    //
-    // Automatically update the VALUE of a pool when the MAX value is changed
-    //
-    const result = wrapper(...args);
-    let poolflags = this.getFlag(MODULE_NAME, "pools")
-    if (poolflags === undefined) poolflags = {};
-    //console.log(`BEFORE: ${JSON.stringify(poolflags)}`)
-    let changed = false;
-    let updates = {};
-    for (const [poolname, pool] of Object.entries(this.system.pools)) {
-        const newvalue = pool?.max;
-        if (newvalue == undefined) continue;
-        if (poolflags[poolname] === undefined) {
-            console.log(`${poolname} is undefined`)
-            poolflags[poolname] = newvalue;
-            changed = true;
-        } else if (poolflags[poolname] != newvalue) {
-            const delta = newvalue - poolflags[poolname];
-            //console.log(`Pool ${poolname} changed by ${delta} from ${poolflags[poolname]} to ${newvalue}`)
-            poolflags[poolname] = newvalue;
-            updates[`system.pools.${poolname}.value`] = pool.value + delta;
-            changed = true;
-        }
+function apply_active_effects(wrapper) {
+    // Game start - the effect deltas were applied before the game was stopped.
+    if (!game.ready || !this.isOwner) return wrapper();
+    // We also only want the owner (or GM) to do this processing, rather than every single logged in player
+    if (!game.user.isGM && game.users.find(user => user.isGM && user.active)) return wrapper();
+
+
+    // Save old states before updating the actor
+    let before = this.overrides?.system?.pools && duplicate(this.overrides?.system?.pools);
+    wrapper();
+    let after = this.overrides.system?.pools;
+    if (before==undefined && after==undefined) return;
+
+    // For each pool, check to see if it's value has changed.
+    let updates;
+    for (const [poolname,value] of Object.entries(this.system.pools)) {
+        if (before?.[poolname]?.max === after?.[poolname]?.max) continue;
+        let prev = before?.[poolname]?.max ?? this._source.system.pools[poolname].max;
+        let curr = after?.[poolname]?.max  ?? this._source.system.pools[poolname].max;
+        let delta = curr - prev;
+        let newvalue = value.value + delta;
+        if (updates===undefined) updates={}
+        setProperty(updates, `system.pools.${poolname}.value`, newvalue);
+        console.debug(`applyActiveEffects: changing pool ${poolname} by ${delta} to ${newvalue}`, [before, after])
     }
-    //console.log(`AFTER: ${JSON.stringify(poolflags)}`)
-    if (changed) {
-        // Don't use this.setFlag because are in the middle of an update
-        updates[`flags.${MODULE_NAME}.pools`] = poolflags;
-        this.update(updates);
-    }
-    return result;
+    if (updates) this.update(updates);
 }

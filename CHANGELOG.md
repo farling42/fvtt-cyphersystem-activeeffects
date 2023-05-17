@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.3.0
+
+- Fix problem with tooltips not being translated.
+- Update active state of all effects in a single update (rather than one update per effect).
+- Simplify position and size of the "Add Active Effect" button.
+- Much better support for updating VALUE of a pool when the MAX is changed by an effect.
+
 ## 1.2.0
 
 - When an Item is archived/dearchived, or a recursion or tag is enabled/disabled, ensure that the owned effects on the actor are enabled/disabled accordingly.
