@@ -1,3 +1,6 @@
+//
+// Actor and Item SHEET changes
+//
 const MODULE_NAME     = "cyphersystem-activeeffects";
 const EFFECT_TEMPLATE = `modules/${MODULE_NAME}/templates/effects.html`;
 
