@@ -1,4 +1,4 @@
-.cyphersystem .effects.active .effect {
+.cyphersystem .effects .effect {
     display: grid;
     grid-template-columns: 4fr 2fr 1fr;
 }
@@ -10,6 +10,16 @@
     height: 1em;
 }
 
-.cyphersystem .effects.active .effect-source {
+.cyphersystem .effects .effect-source {
     text-align: center
+}
+
+.cyphersystem .effects .effects-topbuttons {
+    display: grid;
+    grid-template-columns: 1fr 30%;
+}
+
+.cyphersystem .effects .effect-add {
+    grid-column-end: 3;
+    justify-self: end;
 }
