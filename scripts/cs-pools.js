@@ -27,7 +27,6 @@ function apply_active_effects(wrapper) {
     // We also only want the owner (or GM) to do this processing, rather than every single logged in player
     if (!game.user.isGM && game.users.find(user => user.isGM && user.active)) return wrapper();
 
-
     // Save old states before updating the actor
     let before = this.overrides?.system?.pools && duplicate(this.overrides?.system?.pools);
     wrapper();
