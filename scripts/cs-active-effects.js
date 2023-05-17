@@ -74,7 +74,7 @@ async function render_inner(wrapper, data) {
     inner.find('.effect-edit').on('click', (ev) => {
         const effectId = ev.currentTarget.closest('li').dataset.effectId;
         const effect = thisdoc.effects.get(effectId, { strict: true });
-        effect.sheet?.render(true);
+        effect.sheet?.render(/*force*/true, {editable: !effect.origin});
     })
 
     inner.find('.effect-delete').on('click', (ev) => {
