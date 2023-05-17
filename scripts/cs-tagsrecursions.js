@@ -10,24 +10,29 @@ async function set_effect(item, disabled) {
     const itemid = item.uuid;
     const effects = item.parent.effects.filter(effect => effect.origin === itemid);
     for (const effect of effects) {
-        //console.log(`Setting effect '${effect.label}' to have disabled=${disabled}`)
-        if (effect.disabled != disabled) await effect.update({ disabled })
+        if (effect.disabled != disabled) {
+            console.debug(`--${disabled?"Disabling":"Enabling"} effect '${effect.label}' from '${item.name}' on '${item.parent.name}'`)
+            await effect.update({ disabled })
+        }
     }
 }
 
 // process TAG toggle on Item update
-Hooks.on("updateItem", async (item, changes, options) => {
+Hooks.on("updateItem", async (item, changes, options, userId) => {
+    if (game.userId !== userId) return;
     if (item.parent && (changes.system?.active !== undefined || changes.system?.archived !== undefined)) {
-        //console.log("ITEM", item, changes, options)
+        console.debug(`updateItem: checking active/archived state of '${item.name}'`)
         // note that item.system.active might be undefined
         await set_effect(item, (item.system.active === false || item.system.archived))
     }
 })
 
 // process RECURSION toggle on Actor update
-Hooks.on("updateActor", async (actor, changes, options) => {
+Hooks.on("updateActor", async (actor, changes, options, userId) => {
+    if (game.userId !== userId) return;
     const recursion = changes.flags?.cyphersystem?.recursion;
     if (recursion) {
+        console.debug(`updateActor: recursion on '${actor.name}' changed to '${recursion}'`)
         for (const item of actor.items.filter(item => item.type == 'recursion')) {
             await set_effect(item, `@${item.name.toLowerCase()}` !== recursion)
         }
