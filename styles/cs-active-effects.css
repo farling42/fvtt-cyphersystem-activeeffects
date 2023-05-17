@@ -1,10 +1,6 @@
 .cyphersystem .effects.active .effect {
-    align-items: center;
-    -moz-column-gap: 2px;
-    column-gap: 2px;
     display: grid;
     grid-template-columns: 4fr 2fr 1fr;
-    padding: 2px 5px
 }
 
 .cyphersystem .effects-list .effect .effect-image {
