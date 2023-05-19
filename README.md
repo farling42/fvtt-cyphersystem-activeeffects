@@ -29,6 +29,7 @@ Effects placed on Items which are archived, or tags/recursions which are not act
 
 There is a module option which apply any change in a pool's maximum value also to the pool's current value. (So when an effect or the user changes the maximum value, the pool will maintain the same number of USED points by adjusting the current value accordingly.)
 (NOTE: This interferes with the "Stat Modifiers" in recursions and exclusive tags, so should probably be disabled if playing The Strange.)
+This works a lot better with Cypher System version 2.6.0 and later.
 
 ## Other Modules
 
@@ -45,3 +46,7 @@ When **Active Token Effects** is installed, then the "ATL." prefix can be put on
 The **Dynamic Active Effects** module provides some additional support which can be helpful for creating active effects, such as being able to use something like `@pools.might.max' or more complicated functions as the Effect Value.
 
 _**NOTE:**_ You must go into the DAE module settings and check the box next to "Load DAE for untested game systems".
+
+### [Times Up](https://foundryvtt.com/packages/times-up)
+
+Allows effects to automatically expire when their duration has been reached - provides an option to disable the effect, rather than delete it.
