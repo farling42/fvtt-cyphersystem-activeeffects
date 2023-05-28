@@ -2,12 +2,12 @@
 [![patreon](https://img.shields.io/badge/Patreon-amusingtime-success)](https://patreon.com/amusingtime)
 [![paypal](https://img.shields.io/badge/Paypal-farling-success)](https://paypal.me/farling)
 ![GitHub License](https://img.shields.io/github/license/farling42/fvtt-cyphersystem-activeeffects)
-![](https://img.shields.io/badge/Foundry-v10-informational)
+![](https://img.shields.io/badge/Foundry-v11-informational)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/farling42/fvtt-cyphersystem-activeeffects/latest/module.zip)
 
 ## Active Effects for the Cypher System
 
-This module provides support for Active Effects on all Actors and Items for the [Cypher System](https://foundryvtt.com/packages/cyphersystem) game system.
+This module provides support for Active Effects on all Actors and Items for the [Cypher System](https://foundryvtt.com/packages/cyphersystem) game system (version 2.6.0 and later).
 
 ## Installation
 
@@ -29,7 +29,6 @@ Effects placed on Items which are archived, or tags/recursions which are not act
 
 There is a module option which apply any change in a pool's maximum value also to the pool's current value. (So when an effect or the user changes the maximum value, the pool will maintain the same number of USED points by adjusting the current value accordingly.)
 (NOTE: This interferes with the "Stat Modifiers" in recursions and exclusive tags, so should probably be disabled if playing The Strange.)
-This works a lot better with Cypher System version 2.6.0 and later.
 
 ## Other Modules
 

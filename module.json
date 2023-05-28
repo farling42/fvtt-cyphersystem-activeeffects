@@ -7,7 +7,7 @@
   "manifestPlusVersion": "1.2.0",
   "compatibility": {
     "minimum": 10,
-    "verified": 10
+    "verified": "11.299"
   },
   "authors": [
     {
@@ -21,7 +21,18 @@
     }
   ],
   "relationships": {
-    "systems": [],
+    "systems": [
+      {
+        "id": "cyphersystem",
+        "type": "system",
+        "compatibility": [
+          {
+            "minimum": "2.6.0",
+            "verified": "2.6.0"
+          }
+        ]
+      }
+    ],
     "requires": [{
       "id": "lib-wrapper",
       "type": "module",

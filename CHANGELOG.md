@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.1
+
+- Mark as compatible with Foundry 11 (299)
+
 ## 1.3.0
 
 - Fix problem with tooltips not being translated.
