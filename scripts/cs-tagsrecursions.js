@@ -11,7 +11,7 @@ function getChangedEffects(fxchanges, actor, item, disabled) {
     const effects = actor.effects.filter(effect => effect.origin === itemid);
     for (const effect of effects) {
         if (effect.disabled != disabled) {
-            console.debug(`--${disabled?"Disabling":"Enabling"} effect '${effect.label}' from '${item.name}' on '${actor.name}'`)
+            console.debug(`--${disabled?"Disabling":"Enabling"} effect '${effect.name ?? effect.label}' from '${item.name}' on '${actor.name}'`)
             fxchanges.push({_id: effect.id, disabled})
         }
     }

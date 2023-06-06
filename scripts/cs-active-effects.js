@@ -26,7 +26,7 @@ async function get_data(wrapped, ...args) {
     for (const effect of data.document.effects) {
         const val = {
             id: effect.id,
-            name: effect.label,
+            name: effect.name ?? effect.label,
             image: effect.icon,
             disabled: effect.disabled,
             suppressed: effect.isSuppressed

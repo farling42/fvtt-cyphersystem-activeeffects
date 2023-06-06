@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.2
+
+- Prevent deprecation warning on Foundry 11
+
 ## 1.3.1
 
 - Mark as compatible with Foundry 11 (299)
