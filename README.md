@@ -5,7 +5,7 @@
 ![](https://img.shields.io/badge/Foundry-v11-informational)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/farling42/fvtt-cyphersystem-activeeffects/latest/module.zip)
 
-## Active Effects for the Cypher System
+## Cypher System Active Effects
 
 This module provides support for Active Effects on all Actors and Items for the [Cypher System](https://foundryvtt.com/packages/cyphersystem) game system (version 2.6.0 and later).
 
