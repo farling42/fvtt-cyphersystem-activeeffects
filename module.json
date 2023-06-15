@@ -1,6 +1,6 @@
 {
   "id": "cyphersystem-activeeffects",
-  "title": "Active Effects for the Cypher System",
+  "title": "Cypher System Active Effects",
   "description": "Adds support for Active Effects to Actors and Items for the Cypher System game system",
   "version": "#{VERSION}#",
   "library": "false",

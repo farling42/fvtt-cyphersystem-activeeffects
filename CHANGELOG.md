@@ -3,6 +3,7 @@
 ## 1.3.2
 
 - Prevent deprecation warning on Foundry 11
+- Rename module to "Cypher System Active Effects"
 
 ## 1.3.1
 
