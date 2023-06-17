@@ -12,13 +12,13 @@
         {{/if}}
     </div>
     <div class="item-controls effect-controls">
-        <a class="item-control effect-toggle" data-action="toggle" data-toggle="disabled" title="{{#if effect.disabled}}{{localize 'CSACTIVEEFFECTS.EffectEnable'}}{{else}}{{localize 'CSACTIVEEFFECTS.EffectDisable'}}{{/if}}">
+        <a class="item-control effect-toggle{{#if effect.noToggleDelete}} disabled{{/if}}" data-action="toggle" data-toggle="disabled" title="{{#if effect.disabled}}{{localize 'CSACTIVEEFFECTS.EffectEnable'}}{{else}}{{localize 'CSACTIVEEFFECTS.EffectDisable'}}{{/if}}">
             <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
         </a>
         <a class="item-control effect-edit" data-action="edit" title="{{localize 'CSACTIVEEFFECTS.EffectEdit'}}">
             <i class="fas fa-file-alt"></i>
         </a>
-        <a class="item-control effect-delete" data-action="delete" title="{{localize 'CSACTIVEEFFECTS.EffectDelete'}}">
+        <a class="item-control effect-delete{{#if effect.noToggleDelete}} disabled{{/if}}" data-action="delete" title="{{localize 'CSACTIVEEFFECTS.EffectDelete'}}">
             <i class="fas fa-trash"></i>
         </a>
     </div>

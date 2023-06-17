@@ -17,6 +17,8 @@
         "EffectDelete": "Delete Effect",
         "OpenOrigin": "Open Source Item",
 
+        "CannotToggleEmbedded": "Cannot toggle an Effect on an Embedded Item",
+        "CannotDeleteEmbedded": "Cannot delete an Effect on an Embedded Item",
         "AdjustValueWithMaxName": "Adjust pool value when max changed",
         "AdjustValueWithMaxHint": "When checked, a pool's current value will be modified automatically when the pool's maximum value (the same amount will be added/subtracted to the current pool)."
     }

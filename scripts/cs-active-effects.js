@@ -29,7 +29,8 @@ async function get_data(wrapped, ...args) {
             name: effect.name ?? effect.label,
             image: effect.icon,
             disabled: effect.disabled,
-            suppressed: effect.isSuppressed
+            suppressed: effect.isSuppressed,
+            noToggleDelete: effect.parent.isEmbedded
         };
         if (effect.origin) {
             val.origin = await effect._getSourceName();
@@ -68,18 +69,20 @@ async function render_inner(wrapper, data) {
     inner.find('.effect-toggle').on('click', (ev) => {
         const effectId = ev.currentTarget.closest('li').dataset.effectId;
         const effect = thisdoc.effects.get(effectId, { strict: true });
+        if (effect.parent.isEmbedded) return ui.notifications.warn(game.i18n.localize('CSACTIVEEFFECTS.CannotToggleEmbedded'));
         effect.update({ disabled: !effect?.disabled });
     })
 
     inner.find('.effect-edit').on('click', (ev) => {
         const effectId = ev.currentTarget.closest('li').dataset.effectId;
         const effect = thisdoc.effects.get(effectId, { strict: true });
-        effect.sheet?.render(/*force*/true, {editable: !effect.origin});
+        effect.sheet?.render(/*force*/true, {editable: !effect.origin && !effect.parent.isEmbedded});
     })
 
     inner.find('.effect-delete').on('click', (ev) => {
         const effectId = ev.currentTarget.closest('li').dataset.effectId;
         const effect = thisdoc.effects.get(effectId, { strict: true });
+        if (effect.parent.isEmbedded) return ui.notifications.warn(game.i18n.localize('CSACTIVEEFFECTS.CannotDeleteEmbedded'));
         effect.deleteDialog();
     })
 
