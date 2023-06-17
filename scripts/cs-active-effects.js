@@ -9,8 +9,8 @@ Hooks.once('ready', async function() {
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
 
     // Items.registeredSheets[0] = CypherItemSheet
-    libWrapper.register(MODULE_NAME, "Items.registeredSheets.0.prototype.getData",      get_data,      libWrapper.WRAPPER)
-    libWrapper.register(MODULE_NAME, "Items.registeredSheets.0.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
+    libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype.getData",      get_data,      libWrapper.WRAPPER)
+    libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
 });
 
 //
