@@ -8,7 +8,6 @@ Hooks.once('ready', async function() {
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype.getData",      get_data,      libWrapper.WRAPPER)
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
 
-    // Items.registeredSheets[0] = CypherItemSheet
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype.getData",      get_data,      libWrapper.WRAPPER)
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
 });
@@ -30,10 +29,12 @@ async function get_data(wrapped, ...args) {
             image: effect.icon,
             disabled: effect.disabled,
             suppressed: effect.isSuppressed,
-            noToggleDelete: effect.parent.isEmbedded
+            noToggleDelete: effect.parent.isEmbedded,
+            canEdit: !effect.origin && !effect.parent.isEmbedded
         };
         if (effect.origin) {
-            val.origin = await effect._getSourceName();
+            const original = await fromUuid(effect.origin);
+            if (original) val.origin = original.name;
         }
         if (effect.disabled)
             data.sheetEffects.inactive.push(val);

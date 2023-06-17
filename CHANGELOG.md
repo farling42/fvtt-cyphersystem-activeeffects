@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.3.4
+
+- Use a reliable method of getting the name of the item which provided an Actor's effect (non-deprecated on V11).
+- Ensure tooltip of the edit button accurately reflects whether the effect can be edited or only viewed.
+
 ## 1.3.3
 
 - Disable the toggle and delete buttons when viewing Effects on Embedded Items.
