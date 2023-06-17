@@ -67,27 +67,27 @@ async function render_inner(wrapper, data) {
     const thisdoc = data.document;
 
     // Add event handlers for the stuff we've added to the FX tab
-    inner.find('.effect-toggle').on('click', (ev) => {
+    inner.find('.effect-toggle').on('click', ev => {
         const effectId = ev.currentTarget.closest('li').dataset.effectId;
         const effect = thisdoc.effects.get(effectId, { strict: true });
         if (effect.parent.isEmbedded) return ui.notifications.warn(game.i18n.localize('CSACTIVEEFFECTS.CannotToggleEmbedded'));
         effect.update({ disabled: !effect?.disabled });
     })
 
-    inner.find('.effect-edit').on('click', (ev) => {
+    inner.find('.effect-edit').on('click', ev => {
         const effectId = ev.currentTarget.closest('li').dataset.effectId;
         const effect = thisdoc.effects.get(effectId, { strict: true });
         effect.sheet?.render(/*force*/true, {editable: !effect.origin && !effect.parent.isEmbedded});
     })
 
-    inner.find('.effect-delete').on('click', (ev) => {
+    inner.find('.effect-delete').on('click', ev => {
         const effectId = ev.currentTarget.closest('li').dataset.effectId;
         const effect = thisdoc.effects.get(effectId, { strict: true });
         if (effect.parent.isEmbedded) return ui.notifications.warn(game.i18n.localize('CSACTIVEEFFECTS.CannotDeleteEmbedded'));
         effect.deleteDialog();
     })
 
-    inner.find('.effect-open-origin').on('click', (ev) => {
+    inner.find('.effect-open-origin').on('click', ev => {
         const effectId = ev.currentTarget.closest('li').dataset.effectId;
         const effect = thisdoc.effects.get(effectId, { strict: true });
         fromUuid(effect.origin).then((item) => {
@@ -96,15 +96,12 @@ async function render_inner(wrapper, data) {
     })
 
     // Provide support for the button in the active effects tab.
-    inner.find('.effect-add').on('click', async (ev) => {
-        const newEffect = await CONFIG.ActiveEffect.documentClass.create({
-            label: game.i18n.format('DOCUMENT.New', {
-                type: game.i18n.localize('DOCUMENT.ActiveEffect'),
-            }),
+    inner.find('.effect-add').on('click', ev => {
+        CONFIG.ActiveEffect.documentClass.create({
+            label: game.i18n.format('DOCUMENT.New', { type: game.i18n.localize('DOCUMENT.ActiveEffect') }),
             icon: "icons/svg/aura.svg",
             transfer: true,
-        }, { parent: thisdoc });
-        newEffect?.sheet?.render(true);
+        }, { parent: thisdoc }).then(effect => effect?.sheet?.render(true));
     })
 
     return inner;
