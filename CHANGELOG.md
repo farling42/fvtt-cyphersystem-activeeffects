@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.3.3
+
+- Disable the toggle and delete buttons when viewing Effects on Embedded Items.
+- Hook directly on `game.cyphersystem.CypherItemSheet` rather than `Items.registeredSheets.0` (it was only possible from Cypher System version 2.6.0)
+
 ## 1.3.2
 
 - Prevent deprecation warning on Foundry 11
