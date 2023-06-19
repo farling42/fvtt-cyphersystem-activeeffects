@@ -1,8 +1,9 @@
 # CHANGELOG
 
-## 1.3.5
+## 1.4.0
 
 - Mark effects as draggable.
+- Add support for Dynamic Active Effects (DAE) module. Adding a button to the chat card if an ability is used has an effect which can be transferred to the player's current target(s).
 
 ## 1.3.4
 

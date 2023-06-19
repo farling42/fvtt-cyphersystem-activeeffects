@@ -17,6 +17,7 @@
         "EffectView": "View Effect",
         "EffectDelete": "Delete Effect",
         "OpenOrigin": "Open Source Item",
+        "TransferToTarget" : "Transfer effects to current target(s)",
 
         "CannotToggleEmbedded": "Cannot toggle an Effect on an Embedded Item",
         "CannotDeleteEmbedded": "Cannot delete an Effect on an Embedded Item",

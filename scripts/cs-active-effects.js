@@ -106,3 +106,23 @@ async function render_inner(wrapper, data) {
 
     return inner;
 }
+
+
+function dae_render_chat(message, html, data) {
+    // If there's no item involved in the chat message, then don't do anything.
+    let itemid = message.flags.data.itemID;
+    if (!itemid) return;
+    // If we can't find the item, then we can't process the button
+    let item = fromUuidSync(`${message.flags.data.actorUuid}.Item.${itemid}`);
+    if (!item) return;
+    // At least one effect needs to be transferrable
+    let onefx = item.effects.find(ae => ae.transfer !== true && (!ae.flags?.dae?.selfTargetAlways && !ae.flags?.dae?.selfTarget));
+    if (!onefx) return;
+
+    html.find('.chat-card-buttons').prepend(`<a class="transferFX" title="${game.i18n.localize('CSACTIVEEFFECTS.TransferToTarget')}"><i class="fas fa-person-rays"></i></a>`)
+    html.find('a.transferFX').on('click', ev => {
+        DAE.doEffects(item, true, game.user.targets)
+    })
+}
+
+Hooks.once("DAE.setupComplete", () => Hooks.on("renderChatMessage", dae_render_chat));
