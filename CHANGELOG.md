@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.5.2
+
+- Get the damage track status working on Foundry V11.
+
 ## 1.5.0
 
 - Provide Impaired and Debilitated token states, which will match the state of the damage track for a PC Actor.
