@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.5
+
+- Fixes the bug where pressing the RETURN key in a text field would activate the "Add Active Effect" button.
+
 ## 1.3.4
 
 - Use a reliable method of getting the name of the item which provided an Actor's effect (non-deprecated on V11).
