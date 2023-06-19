@@ -21,7 +21,9 @@
 
         "CannotToggleEmbedded": "Cannot toggle an Effect on an Embedded Item",
         "CannotDeleteEmbedded": "Cannot delete an Effect on an Embedded Item",
-        "AdjustValueWithMaxName": "Adjust pool value when max changed",
-        "AdjustValueWithMaxHint": "When checked, a pool's current value will be modified automatically when the pool's maximum value (the same amount will be added/subtracted to the current pool)."
+        "damageTrackAsEffectName": "Set Status for Damage Track",
+        "damageTrackAsEffectHint": "Reflects the Actor's current damage track state (hale/impaired/debilitated) as a status on the Actor's token",
+        "adjustValueFromMaxName": "Adjust pool value when max changed",
+        "adjustValueFromMaxHint": "When checked, a pool's current value will be modified automatically when the pool's maximum value (the same amount will be added/subtracted to the current pool)."
     }
 }

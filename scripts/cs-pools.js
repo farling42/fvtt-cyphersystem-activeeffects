@@ -4,11 +4,12 @@
 // Ideally we would hook onto preUpdateActor, but this is not triggered when an ActiveEffect changes the MAX value.
 //
 const MODULE_NAME = "cyphersystem-activeeffects";
+const SETTING = "adjustValueFromMax";
 
 Hooks.once("init", () => {
-    game.settings.register(MODULE_NAME, "adjustValueFromMax", {
-        name: game.i18n.localize("CSACTIVEEFFECTS.AdjustValueWithMaxName"),
-        hint: game.i18n.localize("CSACTIVEEFFECTS.AdjustValueWithMaxHint"),
+    game.settings.register(MODULE_NAME, `adjustValueFromMax`, {
+        name: game.i18n.localize(`CSACTIVEEFFECTS.${SETTING}Name`),
+        hint: game.i18n.localize(`CSACTIVEEFFECTS.${SETTING}Hint`),
         scope: "world",
         type: Boolean,
         default: false,
@@ -16,7 +17,7 @@ Hooks.once("init", () => {
         requiresReload: true
     });
 
-    if (game.settings.get(MODULE_NAME, "adjustValueFromMax")) {
+    if (game.settings.get(MODULE_NAME, SETTING)) {
         libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActor.prototype.applyActiveEffects", apply_active_effects, libWrapper.WRAPPED)
     }
 })
