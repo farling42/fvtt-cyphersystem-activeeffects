@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.5
+
+- Mark effects as draggable.
+
 ## 1.3.4
 
 - Use a reliable method of getting the name of the item which provided an Actor's effect (non-deprecated on V11).
