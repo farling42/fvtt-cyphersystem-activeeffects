@@ -23,14 +23,15 @@ async function get_data(wrapped, ...args) {
     // Build our list of temporary & permanent effects
     data.sheetEffects = { temporary: [], permanent: [], inactive: [] };
     for (const effect of data.document.effects) {
+        const editable = effect.isOwner && !effect.parent.isEmbedded;
         const val = {
             id: effect.id,
             name: effect.name ?? effect.label,
             image: effect.icon,
             disabled: effect.disabled,
             suppressed: effect.isSuppressed,
-            noToggleDelete: effect.parent.isEmbedded,
-            canEdit: !effect.origin && !effect.parent.isEmbedded
+            noToggleDelete: !editable,
+            canEdit: editable && !effect.origin
         };
         if (effect.origin) {
             const original = await fromUuid(effect.origin);
@@ -57,14 +58,14 @@ async function get_data(wrapped, ...args) {
 async function render_inner(wrapper, data) {
     // Get original HTML
     let inner = await wrapper(data);
+    const thisdoc = data.document;
+    if (thisdoc.permission < CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER) return inner;
 
     // Add our entry to the NAV tab
     inner.find('nav.sheet-tabs').append(`<a class="item" data-tab="effects" style="flex: 0 0 45px;">${game.i18n.localize("CSACTIVEEFFECTS.Effects")}</a>`)
 
     // Add the details of the FX tab
     inner.find('section.sheet-body').append(await renderTemplate(EFFECT_TEMPLATE, data));
-
-    const thisdoc = data.document;
 
     // Add event handlers for the stuff we've added to the FX tab
     inner.find('.effect-toggle').on('click', ev => {

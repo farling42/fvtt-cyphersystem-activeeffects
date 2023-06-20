@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.6.0
+
+- LIMITED ownership prevents seeing the FX tab.
+- OBSERVER ownership makes the activate and delete buttons on effects non-interactive.
+
 ## 1.5.2
 
 - Get the damage track status working on Foundry V11.
