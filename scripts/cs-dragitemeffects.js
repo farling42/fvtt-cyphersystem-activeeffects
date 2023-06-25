@@ -4,98 +4,48 @@
 //
 const MODULE_NAME = "cyphersystem-activeeffects";
 
-Hooks.on('renderItemSheet', (app,html,data) => {
-    const effectsList = html.find('.effects-list');
-    if (!effectsList) {
-        return;
-    }
 
-    const dragDrop = new DragDrop({
-        dragSelector: '[data-effect-id]',
-        dropSelector: '.effects-list',
-        permissions: { dragstart: () => true, dragdrop: () => app.isEditable && !app.item.isOwned },
-        callbacks: { dragstart: Item_onDragStart(app.object), drop: Item_onDrop(app.object) }
-    });
+Hooks.once('ready', async function() {
+  libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype._createDragDropHandlers", ItemSheet_createDragDropHandler,  libWrapper.WRAPPER)
+});
 
-    dragDrop.bind(html[0]);
-})
+function ItemSheet_createDragDropHandler(wrapper) {
+  let result = wrapper();
+  if (!result) result = [];
+  const dragDrop = new DragDrop({
+      dragSelector: '[data-effect-id]',
+      dropSelector: null,
+      permissions: { dragstart: () => true, dragdrop: () => this.isEditable && !this.item.isOwned },
+      callbacks: { dragstart: ItemSheet_onDragStart.bind(this), drop: ItemSheet_onDrop.bind(this) }
+  });
+  result.push(dragDrop);
+  return result;
+}
 
-
-
-const Item_onDragStart = (effectParent) => (event) =>  {
-  if (!effectParent) {
-    console.debug('Item_onDragStart no parent');
-    return;
-  }
-
+function ItemSheet_onDragStart(event) {
   const li = event.currentTarget;
   const effectId = li.dataset?.effectId;
-  
-  if (!effectId) {
-    return;
-  }
+  if (!effectId) return;
 
-  const effect = effectParent.effects.get(effectId);
-  
-  if (!effect) {
-    return;
-  }
-
-  // outputs the type and uuid
-  const dragData = effect.toDragData();
-
-  console.debug('DragDrop dragStart:', {
-    effect,
-    dragData,
-  });
+  const effect = this.item.effects.get(effectId);
+  if (!effect) return;
 
   // Set data transfer
-  event.dataTransfer.setData("text/plain", JSON.stringify(dragData));  
+  event.dataTransfer.setData("text/plain", JSON.stringify(effect.toDragData()));  
 }
 
   
-const Item_onDrop = (effectParent) => async (event) =>  {
+async function ItemSheet_onDrop(event) {
+  const item = this.item;
+  const data = TextEditor.getDragEventData(event);
 
-  if (!effectParent) {
-    return;
-  }
+  if (data.type !== 'ActiveEffect') return false;
+  if (!item.isOwner) return false;
 
-  // Try to extract the data
-  let dropData;
-  try {
-    dropData = JSON.parse(event.dataTransfer.getData('text/plain'));
-
-    console.debug('DragDrop drop', {
-      event,
-      dropData,
-    });
-  } catch (err) {
-    console.debug('DragDrop drop', {
-      err,
-    });
-
-    return false;
-  }
-
-  if (dropData.type !== 'ActiveEffect') return false;
-
-  const effectDocument = await ActiveEffect.implementation.fromDropData(dropData);
-
-  if (!effectDocument) {
-    return false;
-  }
-
-  console.debug('DragDrop drop starting:', {
-    effectParent,
-    dropData,
-    effectDocument,
-  });
+  const effect = await ActiveEffect.implementation.fromDropData(data);
+  if (!effect) return false;
+  if ( item.uuid === effect.parent?.uuid ) return false;  // don't copy to self
 
   // create the new effect but make the 'origin' the new parent item
-  return ActiveEffect.create(
-    {
-      ...effectDocument.toObject(),
-      //origin: effectParent.uuid,
-    }, {parent: effectParent}
-  );
+  return ActiveEffect.create(effect.toObject(), {parent: item});
 }
