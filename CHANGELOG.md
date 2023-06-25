@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.7.0
+
+- Allow dragging of effects from items to the FX tab of another Actor or Item.
+
 ## 1.6.0
 
 - LIMITED ownership prevents seeing the FX tab.
