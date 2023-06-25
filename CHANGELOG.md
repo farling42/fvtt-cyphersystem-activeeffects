@@ -2,7 +2,7 @@
 
 ## 1.7.0
 
-- Allow dragging of effects from items to the FX tab of another Actor or Item.
+- Allow drag and drop of Active Effects on Item Sheets (since Core Foundry doesn't support it).
 
 ## 1.6.0
 
