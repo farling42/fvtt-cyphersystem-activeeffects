@@ -4,12 +4,16 @@
 const MODULE_NAME     = "cyphersystem-activeeffects";
 const EFFECT_TEMPLATE = `modules/${MODULE_NAME}/templates/effects.html`;
 
+let foundry_V10=false;
+
 Hooks.once('ready', async function() {
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype.getData",      get_data,      libWrapper.WRAPPER)
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
 
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype.getData",      get_data,      libWrapper.WRAPPER)
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
+
+    foundry_V10=game.version.startsWith("10.");
 });
 
 //
@@ -23,7 +27,7 @@ async function get_data(wrapped, ...args) {
     // Build our list of temporary & permanent effects
     data.sheetEffects = { temporary: [], permanent: [], inactive: [] };
     for (const effect of data.document.effects) {
-        const editable = effect.isOwner && !effect.parent.isEmbedded;
+        const editable = effect.isOwner && !(foundry_V10 && effect.parent.isEmbedded);
         const val = {
             id: effect.id,
             name: effect.name ?? effect.label,
@@ -71,20 +75,20 @@ async function render_inner(wrapper, data) {
     inner.find('.effect-toggle').on('click', ev => {
         const effectId = ev.currentTarget.closest('li').dataset.effectId;
         const effect = thisdoc.effects.get(effectId, { strict: true });
-        if (effect.parent.isEmbedded) return ui.notifications.warn(game.i18n.localize('CSACTIVEEFFECTS.CannotToggleEmbedded'));
+        if (foundry_V10 && effect.parent.isEmbedded) return ui.notifications.warn(game.i18n.localize('CSACTIVEEFFECTS.CannotToggleEmbedded'));
         effect.update({ disabled: !effect?.disabled });
     })
 
     inner.find('.effect-edit').on('click', ev => {
         const effectId = ev.currentTarget.closest('li').dataset.effectId;
         const effect = thisdoc.effects.get(effectId, { strict: true });
-        effect.sheet?.render(/*force*/true, {editable: !effect.origin && !effect.parent.isEmbedded});
+        effect.sheet?.render(/*force*/true, {editable: !effect.origin && !(foundry_V10 && effect.parent.isEmbedded) });
     })
 
     inner.find('.effect-delete').on('click', ev => {
         const effectId = ev.currentTarget.closest('li').dataset.effectId;
         const effect = thisdoc.effects.get(effectId, { strict: true });
-        if (effect.parent.isEmbedded) return ui.notifications.warn(game.i18n.localize('CSACTIVEEFFECTS.CannotDeleteEmbedded'));
+        if (foundry_V10 && effect.parent.isEmbedded) return ui.notifications.warn(game.i18n.localize('CSACTIVEEFFECTS.CannotDeleteEmbedded'));
         effect.deleteDialog();
     })
 

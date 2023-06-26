@@ -2,11 +2,15 @@
 // based on code from https://github.com/ElfFriend-DnD/foundryvtt-drop-effects-on-items/blob/main/scripts/drop-effects-on-items.js
 // which uses the MIT license.
 //
+// The four methods emulate those in the core ActorSheet class.
+//
 const MODULE_NAME = "cyphersystem-activeeffects";
 
+let foundry_V10=false;
 
 Hooks.once('ready', async function() {
   libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype._createDragDropHandlers", ItemSheet_createDragDropHandler,  libWrapper.WRAPPER)
+  foundry_V10=game.version.startsWith("10.");
 });
 
 function ItemSheet_createDragDropHandler(wrapper) {
@@ -15,11 +19,21 @@ function ItemSheet_createDragDropHandler(wrapper) {
   const dragDrop = new DragDrop({
       dragSelector: '[data-effect-id]',
       dropSelector: null,
-      permissions: { dragstart: () => true, dragdrop: () => this.isEditable && !this.item.isOwned },
-      callbacks: { dragstart: ItemSheet_onDragStart.bind(this), drop: ItemSheet_onDrop.bind(this) }
+      permissions: { dragstart: ItemSheet_canDragStart.bind(this), dragdrop: ItemSheet_canDragDrop.bind(this) },
+      callbacks:   { dragstart: ItemSheet_onDragStart.bind(this),  drop:     ItemSheet_onDrop.bind(this) }
   });
   result.push(dragDrop);
   return result;
+}
+
+function ItemSheet_canDragStart(selector) {
+  // It is always possible to drag an effect FROM the originating Item.
+  return true;
+}
+
+function ItemSheet_canDragDrop(selector) {
+  // The destination Item must be editable, and on Foundry V10 or earlier it can NOT be embedded.
+  return this.isEditable && !(foundry_V10 && this.item.isEmbedded);
 }
 
 function ItemSheet_onDragStart(event) {
@@ -34,7 +48,6 @@ function ItemSheet_onDragStart(event) {
   event.dataTransfer.setData("text/plain", JSON.stringify(effect.toDragData()));  
 }
 
-  
 async function ItemSheet_onDrop(event) {
   const item = this.item;
   const data = TextEditor.getDragEventData(event);
