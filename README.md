@@ -36,15 +36,15 @@ There is a module option which apply any change in a pool's maximum value also t
 
 ## Other Modules
 
-### [libWrapper](https://foundryvtt.com/packages/lib-wrapper)
+### [libWrapper](https://foundryvtt.com/packages/lib-wrapper) _(optional)_
 
 This is a hard-dependency that must be enabled. It allows this module to hook into and change some core functionality.
 
-### [Active Token Effects](https://foundryvtt.com/packages/ATL)
+### [Active Token Effects](https://foundryvtt.com/packages/ATL) _(optional)_
 
 When **Active Token Effects** is installed, then the "ATL." prefix can be put on a token attribute in order for the effect to modify the token on the owning actor.
 
-### [Dynamic Active Effects](https://foundryvtt.com/packages/dae)
+### [Dynamic Active Effects](https://foundryvtt.com/packages/dae) _(optional)_
 
 The **Dynamic Active Effects** module provides some additional support which can be helpful for creating active effects, such as being able to use something like `@pools.might.max' or more complicated functions as the Effect Value.
 
@@ -52,6 +52,6 @@ When DAE is used, any effects which are marked as being transferred to the targe
 
 _**NOTE:**_ You must go into the DAE module settings and check the box next to "Load DAE for untested game systems".
 
-### [Times Up](https://foundryvtt.com/packages/times-up)
+### [Times Up](https://foundryvtt.com/packages/times-up) _(optional)_
 
 Allows effects to automatically expire when their duration has been reached - provides an option to disable the effect, rather than delete it.
