@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.8.0
+
+- Allow effects to be disabled and deleted on embedded Items in Foundry V11 (not allowed by core in V10).
+
 ## 1.7.0
 
 - Allow drag and drop of Active Effects on Item Sheets (since Core Foundry doesn't support it).
