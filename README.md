@@ -36,7 +36,7 @@ There is a module option which apply any change in a pool's maximum value also t
 
 ## Other Modules
 
-### [libWrapper](https://foundryvtt.com/packages/lib-wrapper) _(optional)_
+### [libWrapper](https://foundryvtt.com/packages/lib-wrapper) _(mandatory)_
 
 This is a hard-dependency that must be enabled. It allows this module to hook into and change some core functionality.
 
