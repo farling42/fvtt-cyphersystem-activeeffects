@@ -46,11 +46,14 @@ When **Active Token Effects** is installed, then the "ATL." prefix can be put on
 
 ### [Dynamic Active Effects](https://foundryvtt.com/packages/dae) _(optional)_
 
+_**NOTE:**_ Version 10.0.35 onwards of DAE do not work with any system other than DND5E due to the author putting DND5E-specific code into the "generic" game system management part of the module.
+
 The **Dynamic Active Effects** module provides some additional support which can be helpful for creating active effects, such as being able to use something like `@pools.might.max' or more complicated functions as the Effect Value.
 
 When DAE is used, any effects which are marked as being transferred to the target will cause an additional button to be placed into the chat card. Pressing this button will transfer the effect to the player's current targets. (This caters for discussion between player and GM before deciding if effects should be transferred.)
 
 _**NOTE:**_ You must go into the DAE module settings and check the box next to "Load DAE for untested game systems".
+
 
 ### [Times Up](https://foundryvtt.com/packages/times-up) _(optional)_
 
