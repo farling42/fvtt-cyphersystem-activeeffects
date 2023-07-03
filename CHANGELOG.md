@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2.0.0
+
+- Switch to being only compatible with Foundry 11.304+ and Cypher System 2.7.0+
+- Remove support for DAE, since DAE won't work with any system except dnd5e any more.
+- Add support for showing status set by an effect (not currently editable).
+- Allow effects to be applied to a target (mark the effects on the combat/ability as NOT transferred to Actor) via the chat card button.
+
 ## 1.8.0
 
 - Allow effects to be disabled and deleted on embedded Items in Foundry V11 (not allowed by core in V10).
