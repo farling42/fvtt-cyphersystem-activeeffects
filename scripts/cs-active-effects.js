@@ -4,12 +4,17 @@
 const MODULE_NAME     = "cyphersystem-activeeffects";
 const EFFECT_TEMPLATE = `modules/${MODULE_NAME}/templates/effects.html`;
 
+Hooks.on("renderChatMessage", render_chat);
+Hooks.on("renderActiveEffectConfig", ActiveEffectDialog_render);
+
 Hooks.once('ready', async function() {
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype.getData",      get_data,      libWrapper.WRAPPER)
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
 
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype.getData",      get_data,      libWrapper.WRAPPER)
     libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
+
+    CONFIG.ActiveEffect.legacyTransferral = false;
 });
 
 //
@@ -22,20 +27,25 @@ async function get_data(wrapped, ...args) {
 
     // Build our list of temporary & permanent effects
     data.sheetEffects = { temporary: [], permanent: [], inactive: [] };
-    for (const effect of data.document.effects) {
+    const effects = data.document.allApplicableEffects?.() ?? data.document.effects;
+    for (const effect of effects) {
         const editable = effect.isOwner;
         const val = {
             id: effect.id,
             name: effect.name ?? effect.label,
-            image: effect.icon,
+            image: effect.img,
             disabled: effect.disabled,
             suppressed: effect.isSuppressed,
             noToggleDelete: !editable,
             canEdit: editable && !effect.origin
         };
         if (effect.origin) {
+            // only when legacyTransferral = True
             const original = await fromUuid(effect.origin);
             if (original) val.origin = original.name;
+        } else if (effect.transfer && effect.parent != data.document) {
+            // Only if the item is embedded (in an Actor)
+            val.origin = effect.parent.name;
         }
         if (effect.disabled)
             data.sheetEffects.inactive.push(val);
@@ -61,6 +71,16 @@ async function render_inner(wrapper, data) {
     const thisdoc = data.document;
     if (thisdoc.permission < CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER) return inner;
 
+    function getEffect(ev) {
+        const effectId = ev.currentTarget.closest('li').dataset.effectId;
+        if (thisdoc.allApplicableEffects) {
+            for (const effect of thisdoc.allApplicableEffects())
+                if (effect.id === effectId) return effect;
+            return null;
+        }
+        else
+            return thisdoc.effects.get(effectId);
+    }
     // Add our entry to the NAV tab
     inner.find('nav.sheet-tabs').append(`<a class="item" data-tab="effects" style="flex: 0 0 45px;">${game.i18n.localize("CSACTIVEEFFECTS.Effects")}</a>`)
 
@@ -69,29 +89,21 @@ async function render_inner(wrapper, data) {
 
     // Add event handlers for the stuff we've added to the FX tab
     inner.find('.effect-toggle').on('click', ev => {
-        const effectId = ev.currentTarget.closest('li').dataset.effectId;
-        const effect = thisdoc.effects.get(effectId, { strict: true });
-        effect.update({ disabled: !effect?.disabled });
+        const effect = getEffect(ev);
+        effect?.update({ disabled: !effect.disabled });
     })
 
     inner.find('.effect-edit').on('click', ev => {
-        const effectId = ev.currentTarget.closest('li').dataset.effectId;
-        const effect = thisdoc.effects.get(effectId, { strict: true });
-        effect.sheet?.render(/*force*/true, {editable: !effect.origin });
+        const effect = getEffect(ev);
+        effect?.sheet?.render(/*force*/true, {editable: !effect.origin });
     })
 
     inner.find('.effect-delete').on('click', ev => {
-        const effectId = ev.currentTarget.closest('li').dataset.effectId;
-        const effect = thisdoc.effects.get(effectId, { strict: true });
-        effect.deleteDialog();
+        getEffect(ev)?.deleteDialog();
     })
 
     inner.find('.effect-open-origin').on('click', ev => {
-        const effectId = ev.currentTarget.closest('li').dataset.effectId;
-        const effect = thisdoc.effects.get(effectId, { strict: true });
-        fromUuid(effect.origin).then((item) => {
-            thisdoc.items.get(item.id)?.sheet?.render(true);
-        });
+        getEffect(ev)?.parent.sheet.render(true);
     })
 
     // Provide support for the button in the active effects tab.
@@ -107,7 +119,7 @@ async function render_inner(wrapper, data) {
 }
 
 
-function dae_render_chat(message, html, data) {
+function render_chat(message, html, data) {
     // If there's no item involved in the chat message, then don't do anything.
     let itemid = message.flags.data.itemID;
     if (!itemid) return;
@@ -115,13 +127,47 @@ function dae_render_chat(message, html, data) {
     let item = fromUuidSync(`${message.flags.data.actorUuid}.Item.${itemid}`);
     if (!item) return;
     // At least one effect needs to be transferrable
-    let onefx = item.effects.find(ae => ae.transfer !== true && (!ae.flags?.dae?.selfTargetAlways && !ae.flags?.dae?.selfTarget));
-    if (!onefx) return;
+    let fxlist = item.effects.filter(ae => ae.transfer !== true && (!ae.flags?.dae?.selfTargetAlways && !ae.flags?.dae?.selfTarget));
+    if (!fxlist) return;
 
     html.find('.chat-card-buttons').prepend(`<a class="transferFX" title="${game.i18n.localize('CSACTIVEEFFECTS.TransferToTarget')}"><i class="fas fa-person-rays"></i></a>`)
-    html.find('a.transferFX').on('click', ev => {
-        DAE.doEffects(item, true, game.user.targets)
+    html.find('a.transferFX').on('click', async (ev) => {
+        //console.log(`copy effects from ${item.uuid} to`, game.user.targets)
+        for (const token of game.user.targets) {
+            for (const fx of fxlist) {
+                let newfx;
+                // Replace with a special effect (if applicable)
+                if (fx.changes.length === 1 && fx.changes[0].key == 'statusId') {
+                    const effectData = CONFIG.statusEffects.find(ef => ef.id === fx.changes[0].value);
+                    if (effectData) {
+                        newfx = foundry.utils.deepClone(effectData);
+                        newfx.name = game.i18n.localize(effectData.label);
+                        newfx.statuses = [effectData.id];
+                        delete newfx.id;
+                    }
+                }
+                if (!newfx) newfx = fx.toObject();
+
+                await ActiveEffect.implementation.create(newfx, {parent: token.actor})
+            }
+        }
     })
 }
 
-Hooks.once("DAE.setupComplete", () => Hooks.on("renderChatMessage", dae_render_chat));
+
+async function ActiveEffectDialog_render(app, html, data) {
+    // let's add in an additional row to allow editing of status effect array
+    let status = $(`
+    <div class="form-group">
+    <label>Status Effects</label>
+    <input type="text" name="statusEffects" disabled value="${Array.from(data.effect.statuses).join(" ")}">
+    </div>`);
+
+    html.find('div.form-group.stacked').after(status);
+
+    if (!app._minimized) {
+		let pos = app.position;
+		pos.height = 'auto'
+		app.setPosition(pos);
+	}
+}
