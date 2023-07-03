@@ -6,11 +6,8 @@
 //
 const MODULE_NAME = "cyphersystem-activeeffects";
 
-let foundry_V10=false;
-
 Hooks.once('ready', async function() {
   libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype._createDragDropHandlers", ItemSheet_createDragDropHandler,  libWrapper.WRAPPER)
-  foundry_V10=game.version.startsWith("10.");
 });
 
 function ItemSheet_createDragDropHandler(wrapper) {
@@ -32,8 +29,8 @@ function ItemSheet_canDragStart(selector) {
 }
 
 function ItemSheet_canDragDrop(selector) {
-  // The destination Item must be editable, and on Foundry V10 or earlier it can NOT be embedded.
-  return this.isEditable && !(foundry_V10 && this.item.isEmbedded);
+  // The destination Item must be editable.
+  return this.isEditable;
 }
 
 function ItemSheet_onDragStart(event) {
