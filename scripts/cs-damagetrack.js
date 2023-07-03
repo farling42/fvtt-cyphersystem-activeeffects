@@ -40,13 +40,8 @@ async function my_update_actor(actor, changes, options, userId) {
                     // as per TokenDocument#toggleActiveEffect
                     //console.debug(`ADDING effect for new state '${state}'`)
                     const createData = foundry.utils.deepClone(effectData);
-                    if (game.version.startsWith("10.")) {
-                        createData.label = game.i18n.localize(`CYPHERSYSTEM.${effectData.label}`);
-                        createData["flags.core.statusId"] = effectData.id;
-                    } else {
-                        createData.name = game.i18n.localize(`CYPHERSYSTEM.${effectData.label}`);
-                        createData.statuses = [effectData.id];
-                    }
+                    createData.name = game.i18n.localize(`CYPHERSYSTEM.${effectData.label}`);
+                    createData.statuses = [effectData.id];
 
                     delete createData.id;
                     const cls = getDocumentClass("ActiveEffect");

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.1
+
+- Fix an issue with archived items/tags/recursions still having their effects applied (rather than disabled).
+
 ## 2.0.0
 
 - Switch to being only compatible with Foundry 11.304+ and Cypher System 2.7.0+
