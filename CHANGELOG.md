@@ -6,6 +6,7 @@
 - Remove support for DAE, since DAE won't work with any system except dnd5e any more.
 - Add support for showing status set by an effect (not currently editable).
 - Allow effects to be applied to a target (mark the effects on the combat/ability as NOT transferred to Actor) via the chat card button.
+- Use NEW active effect system available in Foundry 11 (legacyTransferral=false), this might leave previously transferred effects on your actors.
 
 ## 1.8.0
 
