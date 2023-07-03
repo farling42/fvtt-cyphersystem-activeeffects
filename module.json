@@ -27,8 +27,8 @@
         "type": "system",
         "compatibility": [
           {
-            "minimum": "2.6.0",
-            "verified": "2.6.0"
+            "minimum": "2.7.0",
+            "verified": "2.7.0"
           }
         ]
       }
