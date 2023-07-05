@@ -12,6 +12,9 @@ Hooks.once('init', async function() {
 Hooks.on("renderChatMessage", render_chat);
 Hooks.on("renderActiveEffectConfig", ActiveEffectDialog_render);
 
+// We can't use renderActorSheet and renderItemSheet hooks, because that would prevent the FX tab remaining open
+// when an actor sheet is re-rendered.
+
 Hooks.once('ready', async function() {
     libWrapper.register(MODULE_NAME, "ActorSheet.prototype.getData",      sheet_getData,      libWrapper.WRAPPER)
     libWrapper.register(MODULE_NAME, "ActorSheet.prototype._renderInner", sheet_renderInner,  libWrapper.WRAPPER)
