@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.1.0
+## 2.0.2
 
 - Ensure effects on Items are applied to an Actor at world start.
 - Apply getData() hooks directly to ActorSheet and ItemSheet (rather than the CypherSystem-specific versions).
