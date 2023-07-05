@@ -38,7 +38,7 @@ async function sheet_getData(wrapped, ...args) {
         const editable = effect.isOwner;
         const val = {
             id: effect.id,
-            name: effect.name ?? effect.label,
+            name: effect.name,
             image: effect.img,
             disabled: effect.disabled,
             suppressed: effect.isSuppressed,
@@ -147,7 +147,7 @@ function render_chat(message, html, data) {
                     const effectData = CONFIG.statusEffects.find(ef => ef.id === fx.changes[0].value);
                     if (effectData) {
                         newfx = foundry.utils.deepClone(effectData);
-                        newfx.name = game.i18n.localize(effectData.label);
+                        newfx.name = game.i18n.localize(effectData.name);
                         newfx.statuses = [effectData.id];
                         delete newfx.id;
                     }
@@ -162,12 +162,25 @@ function render_chat(message, html, data) {
 
 
 async function ActiveEffectDialog_render(app, html, data) {
-    // let's add in an additional row to allow display of status effect array.
-    // It will be editable when we work out how to set the value of a Set from a space-separated string.
+    // Add an additional field which allows selection of 0 or more statuses to be set from this effect.
+
+    // Get a sorted list of token statuses.
+    let effects = Array.from(CONFIG.statusEffects);
+    effects.forEach(f => f.name = game.i18n.localize(f.name));
+    let sorted_effects = effects.toSorted((a,b) => a.name.localeCompare(b.name))
+
+    let options="";
+    for (const status of sorted_effects) {
+        options += `<option value="${status.id}"${data.effect.statuses.has(status.id)?" selected":""}>${status.name}</option>`
+    }
+    let curvalue = Array.from(data.effect.statuses).join(' ');
+    console.log(`Effect window showing effect list: '${curvalue}`);
+    // "name" attribute of "select" element is the link that the form submit will use to update the Effect directly from select.value.
+    // "id" attribute links the "label" to the "select" element.
     let status = $(`
     <div class="form-group">
-    <label>Status Effects</label>
-    <input type="text" name="statusEffects" disabled value="${Array.from(data.effect.statuses).join(" ")}">
+    <label for="statusEffects">Status Effect</label>
+    <select name="statuses" id="statusEffects"${app.isEditable ? '' : ' disabled'}>${options}</select>
     </div>`);
 
     html.find('div.form-group.stacked').after(status);

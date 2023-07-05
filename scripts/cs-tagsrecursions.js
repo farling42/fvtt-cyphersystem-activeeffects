@@ -10,7 +10,7 @@ async function updateEffects(actor, item, disabled) {
     //const itemid = item.uuid;
     for (const effect of actor.allApplicableEffects()) {
         if (effect.parent === item && effect.disabled != disabled) {
-            console.debug(`--${disabled?"Disabling":"Enabling"} effect '${effect.name ?? effect.label}' from '${item.name}' on '${actor.name}'`)
+            console.debug(`--${disabled?"Disabling":"Enabling"} effect '${effect.name}' from '${item.name}' on '${actor.name}'`)
             await effect.update({disabled})
         }
     }

@@ -14,8 +14,8 @@ Hooks.on("init", () => {
     });
 
     if (game.settings.get(MODULE_NAME, SETTING)) {
-        CONFIG.statusEffects.push({id: "impaired",    label: "Impaired",    icon: `modules/${MODULE_NAME}/assets/impaired.svg`});
-        CONFIG.statusEffects.push({id: "debilitated", label: "Debilitated", icon: `modules/${MODULE_NAME}/assets/debilitated.svg`});
+        CONFIG.statusEffects.push({id: "impaired",    name: "CYPHERSYSTEM.Impaired",    icon: `modules/${MODULE_NAME}/assets/impaired.svg`});
+        CONFIG.statusEffects.push({id: "debilitated", name: "CYPHERSYSTEM.Debilitated", icon: `modules/${MODULE_NAME}/assets/debilitated.svg`});
         Hooks.on("updateActor", my_update_actor);
         Hooks.on("createActiveEffect", my_create_effect);
         Hooks.on("deleteActiveEffect", my_delete_effect);
@@ -40,7 +40,7 @@ async function my_update_actor(actor, changes, options, userId) {
                     // as per TokenDocument#toggleActiveEffect
                     //console.debug(`ADDING effect for new state '${state}'`)
                     const createData = foundry.utils.deepClone(effectData);
-                    createData.name = game.i18n.localize(`CYPHERSYSTEM.${effectData.label}`);
+                    createData.name = game.i18n.localize(effectData.name);
                     createData.statuses = [effectData.id];
 
                     delete createData.id;
