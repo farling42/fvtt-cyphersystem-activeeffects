@@ -64,16 +64,16 @@ async function my_update_actor(actor, changes, options, userId) {
 function my_create_effect(effect, options, userId) {
     const actor = effect.parent;
     if (options.fromActor || !actor || game.userId != userId) return;
-    const actor_state = actor.system?.combat?.damageTrack?.state;
-    if (!actor_state) return;
-    let statusId;
+    const current_state = actor.system?.combat?.damageTrack?.state;
+    if (!current_state) return;
+    let new_state;
     if (effect.statuses.has('impaired'))
-        statusId = "impaired";
+        new_state = "Impaired";
     else if (effect.statuses.has('debilitated'))
-        statusId = "debilitated";
-    if (statusId && actor_state.toLowerCase() != statusId) {
+        new_state = "Debilitated";
+    if (new_state && current_state != new_state) {
         //console.debug(`createActiveEffect: setting damage track to ${statusId.capitalize()}`)
-        effect.parent.update({"system.combat.damageTrack.state" : statusId.capitalize()});
+        actor.update({"system.combat.damageTrack.state" : new_state});
     }
 }
 
@@ -87,6 +87,6 @@ function my_delete_effect(effect, options, userId) {
     if (!actor_state) return;
     if (effect.statuses.has(actor_state.toLowerCase())) {
         //console.debug(`createActiveEffect: setting damage track to Hale`)
-        effect.parent.update({"system.combat.damageTrack.state" : "Hale"})
+        actor.update({"system.combat.damageTrack.state" : "Hale"})
     }
 }

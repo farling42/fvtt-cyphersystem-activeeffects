@@ -7,7 +7,7 @@ const MODULE_NAME = "cyphersystem-activeeffects";
 const SETTING = "adjustValueFromMax";
 
 Hooks.once("init", () => {
-    game.settings.register(MODULE_NAME, `adjustValueFromMax`, {
+    game.settings.register(MODULE_NAME, SETTING, {
         name: game.i18n.localize(`CSACTIVEEFFECTS.${SETTING}Name`),
         hint: game.i18n.localize(`CSACTIVEEFFECTS.${SETTING}Hint`),
         scope: "world",

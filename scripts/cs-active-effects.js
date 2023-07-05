@@ -4,24 +4,27 @@
 const MODULE_NAME     = "cyphersystem-activeeffects";
 const EFFECT_TEMPLATE = `modules/${MODULE_NAME}/templates/effects.html`;
 
+Hooks.once('init', async function() {
+    // Must be done before Actors are loaded into the world.
+    CONFIG.ActiveEffect.legacyTransferral = false;
+})
+
 Hooks.on("renderChatMessage", render_chat);
 Hooks.on("renderActiveEffectConfig", ActiveEffectDialog_render);
 
 Hooks.once('ready', async function() {
-    libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype.getData",      get_data,      libWrapper.WRAPPER)
-    libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherActorSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
+    libWrapper.register(MODULE_NAME, "ActorSheet.prototype.getData",      sheet_getData,      libWrapper.WRAPPER)
+    libWrapper.register(MODULE_NAME, "ActorSheet.prototype._renderInner", sheet_renderInner,  libWrapper.WRAPPER)
 
-    libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype.getData",      get_data,      libWrapper.WRAPPER)
-    libWrapper.register(MODULE_NAME, "game.cyphersystem.CypherItemSheet.prototype._renderInner", render_inner,  libWrapper.WRAPPER)
-
-    CONFIG.ActiveEffect.legacyTransferral = false;
+    libWrapper.register(MODULE_NAME, "ItemSheet.prototype.getData",      sheet_getData,      libWrapper.WRAPPER)
+    libWrapper.register(MODULE_NAME, "ItemSheet.prototype._renderInner", sheet_renderInner,  libWrapper.WRAPPER)
 });
 
 //
-// Add the temporary/permanent Active Effects to Item/Actor::getData()
+// Add a new "sheetEffects" to the data for the temporary/permanent Active Effects to Item/Actor::getData(),
 //
 
-async function get_data(wrapped, ...args) {
+async function sheet_getData(wrapped, ...args) {
     // Get core data
     let data = await wrapped(...args);
 
@@ -65,7 +68,7 @@ async function get_data(wrapped, ...args) {
 // The TABS aren't set up properly if we wait until the render hook,
 // So we have to inject the HTML during the _renderInner,
 //
-async function render_inner(wrapper, data) {
+async function sheet_renderInner(wrapper, data) {
     // Get original HTML
     let inner = await wrapper(data);
     const thisdoc = data.document;
@@ -156,7 +159,8 @@ function render_chat(message, html, data) {
 
 
 async function ActiveEffectDialog_render(app, html, data) {
-    // let's add in an additional row to allow editing of status effect array
+    // let's add in an additional row to allow display of status effect array.
+    // It will be editable when we work out how to set the value of a Set from a space-separated string.
     let status = $(`
     <div class="form-group">
     <label>Status Effects</label>

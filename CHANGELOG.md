@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.1.0
+
+- Ensure effects on Items are applied to an Actor at world start.
+- Apply getData() hooks directly to ActorSheet and ItemSheet (rather than the CypherSystem-specific versions).
+
 ## 2.0.1
 
 - Fix an issue with archived items/tags/recursions still having their effects applied (rather than disabled).
@@ -46,6 +51,7 @@
 
 ## 1.3.3
 
+- Don't allow effects to be toggled on/off or deleted if the effect is inherited from an Item on the Actor.
 - Disable the toggle and delete buttons when viewing Effects on Embedded Items.
 - Hook directly on `game.cyphersystem.CypherItemSheet` rather than `Items.registeredSheets.0` (it was only possible from Cypher System version 2.6.0)
 
