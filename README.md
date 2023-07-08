@@ -25,6 +25,10 @@ The core Foundry functionality is then available for active effects, such as the
 
 Effects placed on Items which are archived, or tags/recursions which are not active, will have their effects automatically disabled/enabled when their state changes.
 
+Active Effects can be associated with a token status, so when the effect is active on the actor then the corresponding status is shown on the Actor's token.
+
+To have an effect applied to the target of an ability, simply configure the ability to have the effect and ensure that "transfer to actor" is NOT checked. When the ability is used an additional icon will appear in the chat card which will allow the effect to be applied to the currently target token(s). (e.g. have a combat action of "Unarmed (Bash)" which will have an effect which can be transferred to the target, and cause the targetted token to be given the "Stunned" state.)
+
 ### Option: Show status on Actors which are Impaired or Debilititated
 
 The module adds two new statuses to Tokens - Impaired (broken arm) and Debilitated (broken heart). The display of the statuses on the token will match the damage track state - and applying or removing the status on the token will update the linked Actor's damage track state.
