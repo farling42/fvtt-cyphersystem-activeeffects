@@ -27,6 +27,8 @@ Effects placed on Items which are archived, or tags/recursions which are not act
 
 Active Effects can be associated with a token status, so when the effect is active on the actor then the corresponding status is shown on the Actor's token.
 
+### Transfer Effect(s) to Target(s)
+
 To have an effect applied to the target of an ability, simply configure the ability to have the effect and ensure that "transfer to actor" is NOT checked. When the ability is used an additional icon will appear in the chat card which will allow the effect to be applied to the currently target token(s). (e.g. have a combat action of "Unarmed (Bash)" which will have an effect which can be transferred to the target, and cause the targetted token to be given the "Stunned" state.)
 
 ### Option: Show status on Actors which are Impaired or Debilititated
