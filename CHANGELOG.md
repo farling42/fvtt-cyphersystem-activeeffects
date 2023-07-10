@@ -3,6 +3,7 @@
 ## 2.1.1
 
 - Provide an empty status in the Active Effects Dialog.
+- DAE (Dynamic Active Effects) version 10.0.37 is working with any system again - so use DAE.doEffects from the button in the chat card if the DAE module is enabled (rather than our internal, more-limited version).
 
 ## 2.1.0
 

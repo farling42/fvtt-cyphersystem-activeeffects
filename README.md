@@ -54,4 +54,6 @@ When **Active Token Effects** is installed, then the "ATL." prefix can be put on
 
 Allows effects to automatically expire when their duration has been reached - provides an option to disable the effect, rather than delete it.
 
-**Note**: Previously this module also worked with `Dynamic Active Effects`, but this no longer works due to a code change in the DAE module which makes that module only work with the dnd5e game system.
+### [Dynamic Active Efeects](https://foundryvtt.com/packages/dae) _(optional)_
+
+Allows many more effects to be created and is more flexible when transferring effects to targets. (Note that version 10.0.35 and 10.0.36 do not work with any system other than dnd5e)

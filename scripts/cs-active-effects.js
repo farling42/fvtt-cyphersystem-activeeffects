@@ -125,6 +125,29 @@ async function sheet_renderInner(wrapper, data) {
 }
 
 
+async function local_transfer_effect(fxlist)
+{
+    for (const token of game.user.targets) {
+        for (const fx of fxlist) {
+            let newfx;
+            // Replace with a special effect (if applicable)
+            if (fx.changes.length === 1 && fx.changes[0].key == 'statusId') {
+                const effectData = CONFIG.statusEffects.find(ef => ef.id === fx.changes[0].value);
+                if (effectData) {
+                    newfx = foundry.utils.deepClone(effectData);
+                    newfx.name = game.i18n.localize(effectData.name);
+                    newfx.statuses = [effectData.id];
+                    delete newfx.id;
+                }
+            }
+            if (!newfx) newfx = fx.toObject();
+
+            await ActiveEffect.implementation.create(newfx, {parent: token.actor})
+        }
+    }
+}
+
+
 function render_chat(message, html, data) {
     // If there's no item involved in the chat message, then don't do anything.
     let itemid = message.flags.data.itemID;
@@ -139,24 +162,10 @@ function render_chat(message, html, data) {
     html.find('.chat-card-buttons').prepend(`<a class="transferFX" title="${game.i18n.localize('CSACTIVEEFFECTS.TransferToTarget')}"><i class="fas fa-person-rays"></i></a>`)
     html.find('a.transferFX').on('click', async (ev) => {
         //console.log(`copy effects from ${item.uuid} to`, game.user.targets)
-        for (const token of game.user.targets) {
-            for (const fx of fxlist) {
-                let newfx;
-                // Replace with a special effect (if applicable)
-                if (fx.changes.length === 1 && fx.changes[0].key == 'statusId') {
-                    const effectData = CONFIG.statusEffects.find(ef => ef.id === fx.changes[0].value);
-                    if (effectData) {
-                        newfx = foundry.utils.deepClone(effectData);
-                        newfx.name = game.i18n.localize(effectData.name);
-                        newfx.statuses = [effectData.id];
-                        delete newfx.id;
-                    }
-                }
-                if (!newfx) newfx = fx.toObject();
-
-                await ActiveEffect.implementation.create(newfx, {parent: token.actor})
-            }
-        }
+        if (game.modules.get('dae')?.active)
+            DAE.doEffects(item, true, game.user.targets)
+        else
+            await local_transfer_effect(fxlist)
     })
 }
 
