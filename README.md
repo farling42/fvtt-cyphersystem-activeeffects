@@ -53,3 +53,5 @@ When **Active Token Effects** is installed, then the "ATL." prefix can be put on
 ### [Times Up](https://foundryvtt.com/packages/times-up) _(optional)_
 
 Allows effects to automatically expire when their duration has been reached - provides an option to disable the effect, rather than delete it.
+
+**Note**: Previously this module also worked with `Dynamic Active Effects`, but this no longer works due to a code change in the DAE module which makes that module only work with the dnd5e game system.
