@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.1
+
+- Provide an empty status in the Active Effects Dialog.
+
 ## 2.1.0
 
 - Update the Active Effects Dialog to allow setting of ONE token status for the effect. (Note that the icon for the effect is displayed on the Token, whilst the icon associated with the selected token status is displayed when opening the token's status select menu.)
