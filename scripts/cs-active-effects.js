@@ -9,7 +9,7 @@ Hooks.once('init', async function() {
     CONFIG.ActiveEffect.legacyTransferral = false;
 })
 
-Hooks.on("renderChatMessage", render_chat);
+Hooks.on("renderChatMessage", my_renderChatMessage);
 Hooks.on("renderActiveEffectConfig", ActiveEffectDialog_render);
 
 // We can't use renderActorSheet and renderItemSheet hooks, because that would prevent the FX tab remaining open
@@ -148,7 +148,7 @@ async function local_transfer_effect(fxlist)
 }
 
 
-function render_chat(message, html, data) {
+function my_renderChatMessage(message, html, data) {
     // If there's no item involved in the chat message, then don't do anything.
     let itemid = message.flags.data.itemID;
     if (!itemid) return;
@@ -157,7 +157,7 @@ function render_chat(message, html, data) {
     if (!item) return;
     // At least one effect needs to be transferrable
     let fxlist = item.effects.filter(ae => ae.transfer !== true && (!ae.flags?.dae?.selfTargetAlways && !ae.flags?.dae?.selfTarget));
-    if (!fxlist) return;
+    if (!fxlist?.length) return;
 
     html.find('.chat-card-buttons').prepend(`<a class="transferFX" title="${game.i18n.localize('CSACTIVEEFFECTS.TransferToTarget')}"><i class="fas fa-person-rays"></i></a>`)
     html.find('a.transferFX').on('click', async (ev) => {

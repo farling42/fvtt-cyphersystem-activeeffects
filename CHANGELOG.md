@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.2
+
+- Fix bug where transfer-effects button would appear in chat card even though no effects are present on the triggering Item.
+
 ## 2.1.1
 
 - Provide an empty status in the Active Effects Dialog.
