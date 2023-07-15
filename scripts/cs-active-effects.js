@@ -206,6 +206,6 @@ async function ActiveEffectDialog_render(app, html, data) {
 
 function ActiveEffectDialog_getSubmitData(wrapper, updateData) {
     let data = wrapper(updateData);
-    if (data.statuses === "") data.statuses = new Set();
+    if (data.statuses === "") data.statuses = null;
     return data;
 }
