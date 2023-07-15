@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.4
+
+- Allow the status field in the Active Effects editor to be set to blank.
+
 ## 2.1.3
 
 - Prevent error being reported in my_renderChatMessage when chat card doesn't contain a dice roll.
