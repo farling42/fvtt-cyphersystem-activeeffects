@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.3
+
+- Prevent error being reported in my_renderChatMessage when chat card doesn't contain a dice roll.
+
 ## 2.1.2
 
 - Fix bug where transfer-effects button would appear in chat card even though no effects are present on the triggering Item.

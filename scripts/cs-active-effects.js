@@ -150,7 +150,7 @@ async function local_transfer_effect(fxlist)
 
 function my_renderChatMessage(message, html, data) {
     // If there's no item involved in the chat message, then don't do anything.
-    let itemid = message.flags.data.itemID;
+    let itemid = message.flags?.data?.itemID;
     if (!itemid) return;
     // If we can't find the item, then we can't process the button
     let item = fromUuidSync(`${message.flags.data.actorUuid}.Item.${itemid}`);
