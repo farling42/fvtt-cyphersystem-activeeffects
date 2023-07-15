@@ -54,6 +54,8 @@ When **Active Token Effects** is installed, then the "ATL." prefix can be put on
 
 Allows effects to automatically expire when their duration has been reached - provides an option to disable the effect, rather than delete it.
 
-### [Dynamic Active Efeects](https://foundryvtt.com/packages/dae) _(optional)_
+### [Dynamic Active Effects](https://foundryvtt.com/packages/dae) _(optional)_
 
 Allows many more effects to be created and is more flexible when transferring effects to targets. (Note that version 10.0.35 and 10.0.36 do not work with any system other than dnd5e)
+
+_e.g. you can modify the CURRENT value of a pool with the DAE `macro.actorUpdate` using a value such as `@actorUuid number "-5" system.pools.intellect.value remove` which will reduce the Intellect pool by 5 (the "-5") while the Effect is Active on the Actor (and the "remove" flag means that the modifier will be removed when the effect is disabled or removed from the actor)_
