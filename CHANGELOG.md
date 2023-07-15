@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.1.4
+## 2.1.5
 
 - Allow the status field in the Active Effects editor to be set to blank.
 
