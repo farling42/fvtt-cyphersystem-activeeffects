@@ -21,6 +21,8 @@ Hooks.once('ready', async function() {
 
     libWrapper.register(MODULE_NAME, "ItemSheet.prototype.getData",      sheet_getData,      libWrapper.WRAPPER)
     libWrapper.register(MODULE_NAME, "ItemSheet.prototype._renderInner", sheet_renderInner,  libWrapper.WRAPPER)
+
+    libWrapper.register(MODULE_NAME, "ActiveEffectConfig.prototype._getSubmitData", ActiveEffectDialog_getSubmitData, libWrapper.WRAPPER)
 });
 
 //
@@ -199,4 +201,11 @@ async function ActiveEffectDialog_render(app, html, data) {
 		pos.height = 'auto'
 		app.setPosition(pos);
 	}
+}
+
+
+function ActiveEffectDialog_getSubmitData(wrapper, updateData) {
+    let data = wrapper(updateData);
+    if (data.statuses === "") data.statuses = new Set();
+    return data;
 }
