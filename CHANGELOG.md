@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.1.6
+## 2.2.0
 
 - Use sparkles icon for the Active Effects tab, and use the Foundry core translation for the button's tooltip ("Active Effects").
 - Reduce text of the Add active Effect button to just "Add".
