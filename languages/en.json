@@ -4,7 +4,7 @@
         "EffectsPermanent": "Permanent Effects",
         "EffectsInactive":  "Inactive Effects",
         "ActiveEffects": {
-            "Add": "Add Active Effect",
+            "Add": "Add",
             "Source": "Source",
             "ResetDuration": "Reset Duration",
             "AddGuided": "Open Wizard",
