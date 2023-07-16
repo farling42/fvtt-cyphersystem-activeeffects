@@ -4,6 +4,7 @@
 
 - Use sparkles icon for the Active Effects tab, and use the Foundry core translation for the button's tooltip ("Active Effects").
 - Reduce text of the Add active Effect button to just "Add".
+- Move the Active Effects to the left of the Settings tab in the Actor sheets (so that SETTINGS is always the right-most tab).
 
 ## 2.1.5
 
