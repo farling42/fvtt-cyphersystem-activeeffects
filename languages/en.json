@@ -1,6 +1,5 @@
 {
     "CSACTIVEEFFECTS": {
-        "Effects": "FX",
         "EffectsTemporary": "Temporary Effects",
         "EffectsPermanent": "Permanent Effects",
         "EffectsInactive":  "Inactive Effects",

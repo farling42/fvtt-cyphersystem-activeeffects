@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.6
+
+- Use sparkles icon for the Active Effects tab, and use the Foundry core translation for the button's tooltip ("Active Effects").
+
 ## 2.1.5
 
 - Allow the status field in the Active Effects editor to be set to blank.
