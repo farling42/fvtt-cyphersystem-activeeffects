@@ -89,8 +89,8 @@ async function sheet_renderInner(wrapper, data) {
         else
             return thisdoc.effects.get(effectId);
     }
-    // Add our entry to the NAV tab
-    inner.find('nav.sheet-tabs').append(`<a class="item" data-tab="effects" style="flex: 0 0 45px;" title="${game.i18n.localize('DOCUMENT.ActiveEffects')}"><i class="fa-solid fa-sparkles"></i></a>`)
+    // Add our entry to the NAV tab (before the SETTINGS tab)
+    inner.find('nav.sheet-tabs a[data-tab="settings"]').before(`<a class="item" data-tab="effects" style="flex: 0 0 45px;" title="${game.i18n.localize('DOCUMENT.ActiveEffects')}"><i class="fa-solid fa-sparkles"></i></a>`);
 
     // Add the details of the FX tab
     inner.find('section.sheet-body').append(await renderTemplate(EFFECT_TEMPLATE, data));
