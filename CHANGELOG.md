@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.2.1
+
+- Change the two SVG files to have separate width/height attributes so that they work in Firefox browser.
+
 ## 2.2.0
 
 - Use sparkles icon for the Active Effects tab, and use the Foundry core translation for the button's tooltip ("Active Effects").
