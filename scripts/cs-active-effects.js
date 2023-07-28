@@ -12,6 +12,10 @@ Hooks.once('init', async function() {
 Hooks.on("renderChatMessage", my_renderChatMessage);
 Hooks.on("renderActiveEffectConfig", ActiveEffectDialog_render);
 
+Hooks.once('init', async function() {
+    Hooks.on("createChatMessage", my_createChatMessage);
+})
+
 // We can't use renderActorSheet and renderItemSheet hooks, because that would prevent the FX tab remaining open
 // when an actor sheet is re-rendered.
 
@@ -169,6 +173,32 @@ function my_renderChatMessage(message, html, data) {
         else
             await local_transfer_effect(fxlist)
     })
+}
+
+/**
+ * Handle Items which are configured with Active Effects which are triggered when the item is used.
+ * 
+ * We detect usage by a new chat message appearing that uses that item.
+ * @param {*} message 
+ * @param {*} options 
+ * @param {*} userId 
+ * @returns 
+ */
+
+function my_createChatMessage(message, options, userId) {
+    if (!game.modules.get('dae')?.active) return;
+
+    let itemid = message.flags?.data?.itemID;
+    if (!itemid) return;
+    // If we can't find the item, then we can't process the button
+    let item = fromUuidSync(`${message.flags.data.actorUuid}.Item.${itemid}`);
+    if (!item) return;
+    
+    // Apply any effects which might transfer on item usage:
+    let actorid = message.flags?.data?.actorUuid;
+    let actortoken = game.canvas.scene.tokens.find(t => actorid.endsWith(t.actorId));
+    if (!actortoken) return;
+    DAE.doEffects(item, /*activate*/true, [actortoken], {selfEffects: "selfEffectsAlways"})
 }
 
 

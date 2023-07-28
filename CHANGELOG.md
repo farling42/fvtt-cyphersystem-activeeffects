@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.3.0
+
+- Support DAE effects which use the setting "Apply to self when item is rolled".
+
 ## 2.2.1
 
 - Change the two SVG files to have separate width/height attributes so that they work in Firefox browser.
