@@ -16,7 +16,7 @@ async function updateEffects(actor, item, disabled) {
     }
 }
 
-// process TAG toggle on Item update
+// process TAG toggle (or Item archive/unarchive) on Item update
 Hooks.on("updateItem", async (item, changes, options, userId) => {
     if (game.userId !== userId) return;
     const actor=item.parent;

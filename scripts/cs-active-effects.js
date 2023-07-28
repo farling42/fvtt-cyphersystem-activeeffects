@@ -156,13 +156,13 @@ async function local_transfer_effect(fxlist)
 
 function my_renderChatMessage(message, html, data) {
     // If there's no item involved in the chat message, then don't do anything.
-    let itemid = message.flags?.data?.itemID;
+    const itemid = message.flags?.data?.itemID;
     if (!itemid) return;
     // If we can't find the item, then we can't process the button
-    let item = fromUuidSync(`${message.flags.data.actorUuid}.Item.${itemid}`);
+    const item = fromUuidSync(`${message.flags.data.actorUuid}.Item.${itemid}`);
     if (!item) return;
     // At least one effect needs to be transferrable
-    let fxlist = item.effects.filter(ae => ae.transfer !== true && (!ae.flags?.dae?.selfTargetAlways && !ae.flags?.dae?.selfTarget));
+    const fxlist = item.effects.filter(ae => ae.transfer !== true && (!ae.flags?.dae?.selfTargetAlways && !ae.flags?.dae?.selfTarget));
     if (!fxlist?.length) return;
 
     html.find('.chat-card-buttons').prepend(`<a class="transferFX" title="${game.i18n.localize('CSACTIVEEFFECTS.TransferToTarget')}"><i class="fas fa-person-rays"></i></a>`)
@@ -188,15 +188,15 @@ function my_renderChatMessage(message, html, data) {
 function my_createChatMessage(message, options, userId) {
     if (!game.modules.get('dae')?.active) return;
 
-    let itemid = message.flags?.data?.itemID;
+    const itemid = message.flags?.data?.itemID;
     if (!itemid) return;
     // If we can't find the item, then we can't process the button
-    let item = fromUuidSync(`${message.flags.data.actorUuid}.Item.${itemid}`);
+    const actorid = message.flags.data.actorUuid;
+    const item = fromUuidSync(`${actorid}.Item.${itemid}`);
     if (!item) return;
     
     // Apply any effects which might transfer on item usage:
-    let actorid = message.flags?.data?.actorUuid;
-    let actortoken = game.canvas.scene.tokens.find(t => actorid.endsWith(t.actorId));
+    const actortoken = game.canvas.scene.tokens.find(t => actorid.endsWith(t.actorId));
     if (!actortoken) return;
     DAE.doEffects(item, /*activate*/true, [actortoken], {selfEffects: "selfEffectsAlways"})
 }
