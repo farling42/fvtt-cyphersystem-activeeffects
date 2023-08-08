@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## next
+
+- Add some console debug messages to indicate our processing of active effects from items.
+
 ## 2.3.0
 
 - Support DAE effects which use the setting "Apply to self when item is rolled".
