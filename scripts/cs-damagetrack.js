@@ -1,6 +1,16 @@
 const MODULE_NAME = "cyphersystem-activeeffects";
 const SETTING = "damageTrackAsEffect";
 
+// The three strings used by the core Cypher System for the damage track
+const STATE_HALE = "Hale";
+const STATE_IMPAIRED = "Impaired";
+const STATE_DEBILITATED = "Debilitated";
+const DAMAGE_STATES = [STATE_HALE, STATE_IMPAIRED, STATE_DEBILITATED];
+
+// The names of the Active Effect for each damage state.
+const EFFECT_IMPAIRED    = "impaired";
+const EFFECT_DEBILITATED = "debilitated";
+
 Hooks.on("init", () => {
 
     game.settings.register(MODULE_NAME, SETTING, {
@@ -14,8 +24,8 @@ Hooks.on("init", () => {
     });
 
     if (game.settings.get(MODULE_NAME, SETTING)) {
-        CONFIG.statusEffects.push({id: "impaired",    name: "CYPHERSYSTEM.Impaired",    icon: `modules/${MODULE_NAME}/assets/impaired.svg`});
-        CONFIG.statusEffects.push({id: "debilitated", name: "CYPHERSYSTEM.Debilitated", icon: `modules/${MODULE_NAME}/assets/debilitated.svg`});
+        CONFIG.statusEffects.push({id: EFFECT_IMPAIRED,    name: `CYPHERSYSTEM.${STATE_IMPAIRED}`,    icon: `modules/${MODULE_NAME}/assets/impaired.svg`});
+        CONFIG.statusEffects.push({id: EFFECT_DEBILITATED, name: `CYPHERSYSTEM.${STATE_DEBILITATED}`, icon: `modules/${MODULE_NAME}/assets/debilitated.svg`});
         Hooks.on("updateActor", my_update_actor);
         Hooks.on("createActiveEffect", my_create_effect);
         Hooks.on("deleteActiveEffect", my_delete_effect);
@@ -29,7 +39,7 @@ async function my_update_actor(actor, changes, options, userId) {
     if (game.userId != userId) return;
     const new_state = changes.system?.combat?.damageTrack?.state;
     if (new_state) {
-        for (const state of ["Hale","Impaired","Debilitated"]) {
+        for (const state of DAMAGE_STATES) {
             const effectData = CONFIG.statusEffects.find(ef => ef.id === state.toLowerCase());
             if (!effectData) continue;
             let existing = actor.effects.find(ef => ef.statuses.has(effectData.id));
@@ -67,10 +77,10 @@ function my_create_effect(effect, options, userId) {
     const current_state = actor.system?.combat?.damageTrack?.state;
     if (!current_state) return;
     let new_state;
-    if (effect.statuses.has('impaired'))
-        new_state = "Impaired";
-    else if (effect.statuses.has('debilitated'))
-        new_state = "Debilitated";
+    if (effect.statuses.has(EFFECT_IMPAIRED))
+        new_state = STATE_IMPAIRED;
+    else if (effect.statuses.has(EFFECT_DEBILIATED))
+        new_state = STATE_DEBILITATED;
     if (new_state && current_state != new_state) {
         //console.debug(`createActiveEffect: setting damage track to ${statusId.capitalize()}`)
         actor.update({"system.combat.damageTrack.state" : new_state});
