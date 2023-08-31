@@ -81,7 +81,7 @@ function my_create_effect(effect, options, userId) {
         new_state = STATE_IMPAIRED;
     else if (effect.statuses.has(EFFECT_DEBILITATED))
         new_state = STATE_DEBILITATED;
-    if (new_state && current_state != new_state) {
+    if (new_state && current_state !== new_state) {
         //console.debug(`createActiveEffect: setting damage track to ${statusId.capitalize()}`)
         actor.update({"system.combat.damageTrack.state" : new_state});
     }
@@ -97,6 +97,6 @@ function my_delete_effect(effect, options, userId) {
     if (!actor_state) return;
     if (effect.statuses.has(actor_state.toLowerCase())) {
         //console.debug(`createActiveEffect: setting damage track to Hale`)
-        actor.update({"system.combat.damageTrack.state" : "Hale"})
+        actor.update({"system.combat.damageTrack.state" : STATE_HALE})
     }
 }
