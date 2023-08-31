@@ -79,7 +79,7 @@ function my_create_effect(effect, options, userId) {
     let new_state;
     if (effect.statuses.has(EFFECT_IMPAIRED))
         new_state = STATE_IMPAIRED;
-    else if (effect.statuses.has(EFFECT_DEBILIATED))
+    else if (effect.statuses.has(EFFECT_DEBILITATED))
         new_state = STATE_DEBILITATED;
     if (new_state && current_state != new_state) {
         //console.debug(`createActiveEffect: setting damage track to ${statusId.capitalize()}`)
