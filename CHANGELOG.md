@@ -3,6 +3,7 @@
 ## next
 
 - Add some console debug messages to indicate our processing of active effects from items.
+- Use the rollEngine hook provided by Cypher System version 2.9.0 to detect triggering of an item (for DAE to set effect on user).
 
 ## 2.3.0
 

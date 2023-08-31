@@ -14,7 +14,7 @@ Hooks.on("renderActiveEffectConfig", ActiveEffectDialog_render);
 
 Hooks.once('ready', async function() {
     if (game.modules.get('dae')?.active) {
-        Hooks.on("createChatMessage", my_createChatMessage);
+        Hooks.on("rollEngine", tellDaeItemUsed);
     }
 })
 
@@ -181,35 +181,23 @@ function my_renderChatMessage(message, html, data) {
 /**
  * Handle Items which are configured with Active Effects which are triggered when the item is used.
  * 
- * We detect usage by a new chat message appearing that uses that item.
- * @param {*} message 
- * @param {*} options 
- * @param {*} userId 
- * @returns 
+ * @param {actor} actor 
+ * @param {Object} data
  */
 
-function my_createChatMessage(message, options, userId) {
-    const itemid = message.flags?.data?.itemID;
-    if (!itemid) {
-        console.debug('CS-AE | No item in chat message')
-        return;
-    }
-    // If we can't find the item, then we can't process the button
-    const actorid = message.flags.data.actorUuid;
-    const item = fromUuidSync(`${actorid}.Item.${itemid}`);
+function tellDaeItemUsed(actor, data) {
+    // Apply any effects which might transfer on item usage:
+    const item = actor.items.get(data.itemID);
     if (!item) {
         console.debug('CS-AE | Failed to find item on Actor');
         return;
     }
-    
-    // Apply any effects which might transfer on item usage:
-    const actortoken = game.canvas.scene.tokens.find(t => actorid.endsWith(t.actorId));
-    if (!actortoken) {
-        console.debug('CS-AE | Failed to find token for actor')
+    if (item.effects.size === 0) {
+        console.debug('CS-AE | Item does not have any ActiveEffect, so ignoring this roll');
         return;
     }
-    console.debug(`CS-AE | Asking DAE to trigger 'selfEffectAlways' for use of '${item.name}'`)
-    DAE.doEffects(item, /*activate*/true, [actortoken], {selfEffects: "selfEffectsAlways"})
+    console.debug(`CS-AE | Asking DAE to trigger 'selfEffectAlways' for use of '${item.name}' by '${actor.name}'`)
+    DAE.doEffects(item, /*activate*/true, [actor], {selfEffects: "selfEffectsAlways"})
 }
 
 
