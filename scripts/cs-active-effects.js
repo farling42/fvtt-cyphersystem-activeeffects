@@ -3,6 +3,7 @@
 //
 const MODULE_NAME     = "cyphersystem-activeeffects";
 const EFFECT_TEMPLATE = `modules/${MODULE_NAME}/templates/effects.html`;
+const SETTING_SORT_EFFECTS = "sortEffects";
 
 Hooks.once('init', async function() {
     // Must be done before Actors are loaded into the world.
@@ -29,6 +30,21 @@ Hooks.once('ready', async function() {
     libWrapper.register(MODULE_NAME, "ItemSheet.prototype._renderInner", sheet_renderInner,  libWrapper.WRAPPER)
 
     libWrapper.register(MODULE_NAME, "ActiveEffectConfig.prototype._getSubmitData", ActiveEffectDialog_getSubmitData, libWrapper.WRAPPER)
+
+    // Option to sort effects alphabetically
+    game.settings.register(MODULE_NAME, SETTING_SORT_EFFECTS, {
+        name: game.i18n.localize(`CSACTIVEEFFECTS.${SETTING_SORT_EFFECTS}Name`),
+        hint: game.i18n.localize(`CSACTIVEEFFECTS.${SETTING_SORT_EFFECTS}Hint`),
+        scope: "world",
+        type: Boolean,
+        default: true,
+        config: true,
+        requiresReload: true
+    });
+    if (game.settings.get(MODULE_NAME, SETTING_SORT_EFFECTS)) {
+        console.debug("CS-AE | Sorting Token Effects Alphabetically")
+        CONFIG.statusEffects.sort((a,b) => game.i18n.localize(a.name ?? a.label).localeCompare(game.i18n.localize(b.name ?? b.label)));
+    }
 });
 
 //

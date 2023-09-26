@@ -4,6 +4,7 @@
 
 - Add some console debug messages to indicate our processing of active effects from items.
 - Use the rollEngine hook provided by Cypher System version 2.9.0 to detect triggering of an item (for DAE to set effect on user).
+- Add an option to sort Status Effects in the Token HUD into alphabetical order (since the default order isn't easy to scan quickly).
 
 ## 2.3.0
 

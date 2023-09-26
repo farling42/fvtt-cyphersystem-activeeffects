@@ -23,6 +23,8 @@
         "damageTrackAsEffectName": "Set Status for Damage Track",
         "damageTrackAsEffectHint": "Reflects the Actor's current damage track state (hale/impaired/debilitated) as a status on the Actor's token",
         "adjustValueFromMaxName": "Adjust pool value when max changed",
-        "adjustValueFromMaxHint": "When checked, a pool's current value will be modified automatically when the pool's maximum value (the same amount will be added/subtracted to the current pool)."
+        "adjustValueFromMaxHint": "When checked, a pool's current value will be modified automatically when the pool's maximum value (the same amount will be added/subtracted to the current pool).",
+        "sortEffectsName": "Sort Status Effects in Token HUD",
+        "sortEffectsHint": "When enabled, status effects will be sorted alphabetically within the Token HUD"
     }
 }
