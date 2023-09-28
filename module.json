@@ -43,6 +43,7 @@
     "scripts/cs-active-effects.js",
     "scripts/cs-damagetrack.js",
     "scripts/cs-dragitemeffects.js",
+    "scripts/cs-misc.js",
     "scripts/cs-pools.js",
     "scripts/cs-tagsrecursions.js"
   ],

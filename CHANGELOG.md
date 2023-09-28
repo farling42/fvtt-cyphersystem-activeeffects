@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## next
+## 2.4.1
+
+- Add module option to set the image for macros to the image of the document being dragged to the Hotbar.
+
+## 2.4.0
 
 - Add some console debug messages to indicate our processing of active effects from items.
 - Use the rollEngine hook provided by Cypher System version 2.9.0 to detect triggering of an item (for DAE to set effect on user).
