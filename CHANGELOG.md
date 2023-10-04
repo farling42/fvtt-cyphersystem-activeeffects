@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.4.2
+
+- Add the missing translation for the new option "Set Macro to Document's Image"
+
 ## 2.4.1
 
 - Add module option to set the image for macros to the image of the document being dragged to the Hotbar.

@@ -25,6 +25,8 @@
         "adjustValueFromMaxName": "Adjust pool value when max changed",
         "adjustValueFromMaxHint": "When checked, a pool's current value will be modified automatically when the pool's maximum value (the same amount will be added/subtracted to the current pool).",
         "sortEffectsName": "Sort Status Effects in Token HUD",
-        "sortEffectsHint": "When enabled, status effects will be sorted alphabetically within the Token HUD"
+        "sortEffectsHint": "When enabled, status effects will be sorted alphabetically within the Token HUD",
+        "useImageForMacroName": "Set Macro to Document's Image",
+        "useImageForMacroHint": "When a macro is created by dragging a document to the macro action bar, set the Macro's icon to the image defined for the document (if it has one)"
     }
 }
