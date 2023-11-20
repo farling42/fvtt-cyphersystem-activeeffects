@@ -17,13 +17,12 @@ async function updateEffects(item, disabled) {
 }
 
 // process TAG toggle (or Item archive/unarchive) on Item update
-Hooks.on("updateItem", async (item, changes, options, userId) => {
-    if (game.userId !== userId) return;
-    if (item.parent && (changes.system?.active !== undefined || changes.system?.archived !== undefined)) {
-        //console.debug(`updateItem: checking active/archived state of '${item.name}'`)
-        // note that item.system.active might be undefined
-        await updateEffects(item, (item.system.active === false || item.system.archived))
-    }
+Hooks.on("enableTag", async (actor, item) => {
+    //console.debug(`updateItem: checking active/archived state of '${item.name}'`)
+    // note that item.system.active might be undefined
+    // render is passed: options = {renderContext: "update.effects"},
+    // but is ignored because this hook is triggered during a RENDER (so sheet._state === RENDERING)
+    await updateEffects(item, (item.system.active === false || item.system.archived))
 })
 
 // process RECURSION toggle on Actor update
