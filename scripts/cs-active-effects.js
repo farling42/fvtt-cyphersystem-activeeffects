@@ -66,7 +66,7 @@ async function sheet_getData(wrapped, ...args) {
             image: effect.img,
             disabled: effect.disabled,
             suppressed: effect.isSuppressed,
-            noToggleDelete: !editable,
+            noToggleDelete: !editable || effect.transfer,
             canEdit: editable && !effect.origin
         };
         if (effect.origin) {
