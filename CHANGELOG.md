@@ -1,8 +1,10 @@
 # CHANGELOG
 
-## 2.4.3
+## 2.5.0
 
 - Simplify code for applying effects in Tags & Recursions (since `CONFIG.ActiveEffect.legacyTransferral = false`)
+- Disable the enable/disable button on an effect if it was transferred onto the Actor from an item (e.g. tag). It's enabled state should always match the archived/enabled state of the owning Item.
+- Change tags to be triggered by the `enableTag` provided by the core Cypher System system.
 
 ## 2.4.2
 
