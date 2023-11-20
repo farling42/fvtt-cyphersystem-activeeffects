@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.4.3
+
+- Simplify code for applying effects in Tags & Recursions (since `CONFIG.ActiveEffect.legacyTransferral = false`)
+
 ## 2.4.2
 
 - Add the missing translation for the new option "Set Macro to Document's Image"
