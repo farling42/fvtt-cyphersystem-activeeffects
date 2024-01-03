@@ -4,6 +4,8 @@
 // If the Item is archived, then the effects should be disabled.
 // If the Item is a Tag or Recursion, then the effects should only be enabled when the tag/recursion is selected.
 //
+// Note that "enableTag" is only triggered once for exclusive tags, rather than for the tag being enabled AND the tag being disabled.
+//
 
 async function updateEffects(item, disabled) {
     // Get matching effects from the parent actor, which we should enable/disable
@@ -16,15 +18,6 @@ async function updateEffects(item, disabled) {
     }
 }
 
-// process TAG toggle (or Item archive/unarchive) on Item update
-Hooks.on("enableTag", async (actor, item) => {
-    //console.debug(`updateItem: checking active/archived state of '${item.name}'`)
-    // note that item.system.active might be undefined
-    // render is passed: options = {renderContext: "update.effects"},
-    // but is ignored because this hook is triggered during a RENDER (so sheet._state === RENDERING)
-    await updateEffects(item, (item.system.active === false || item.system.archived))
-})
-
 // process RECURSION toggle on Actor update
 Hooks.on("updateActor", async (actor, changes, options, userId) => {
     if (game.userId !== userId) return;
@@ -35,5 +28,14 @@ Hooks.on("updateActor", async (actor, changes, options, userId) => {
         for (const item of actor.items.filter(item => item.type === 'recursion')) {
             await updateEffects(item, `@${item.name.toLowerCase()}` !== recursion)
         }
+    }
+})
+
+// process TAG toggle (or Item archive/unarchive) on Item update
+// process ARCHIVED flag on Item update
+Hooks.on("updateItem", async (item, changes, options, userId) => {
+    if (game.userId !== userId) return;
+    if (changes.system?.active !== undefined || changes.system?.archived !== undefined) {
+        await updateEffects(item, (item.system.active === false || item.system.archived));
     }
 })

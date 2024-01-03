@@ -252,5 +252,15 @@ async function ActiveEffectDialog_render(app, html, data) {
 function ActiveEffectDialog_getSubmitData(wrapper, updateData) {
     let data = wrapper(updateData);
     if (data.statuses === "") data.statuses = null;
+    // Ensure it gets the correct state based on the parent item.
+    const owner = this.object?.parent;
+    if (owner) {
+        if (owner.type === 'tag' || owner.type === 'recursion') {
+            if (!owner.system.active) data.disabled = true;
+        } else {
+            if (owner.system.archived) data.disabled = true;
+        }
+    
+    }
     return data;
 }

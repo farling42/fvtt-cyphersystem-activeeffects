@@ -2,10 +2,9 @@
 
 ## 2.5.0
 
+- Ensure a newly created ActiveEffect has the correct enabled/disabled state based on the owning item's state (active/archived).
 - Simplify code for applying effects in Tags & Recursions (since `CONFIG.ActiveEffect.legacyTransferral = false`)
 - Disable the enable/disable button on an effect if it was transferred onto the Actor from an item (e.g. tag). It's enabled state should always match the archived/enabled state of the owning Item.
-- Change tags to be triggered by the `enableTag` provided by the core Cypher System system.
-(Known Issue: When toggling the state of a tag, the active effects on the Actor sheet aren't updated until the next time the window is opened.)
 
 ## 2.4.2
 
