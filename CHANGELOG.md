@@ -2,6 +2,10 @@
 
 ## 2.5.0
 
+- Allow drag of Items and Active Effects onto Tokens on the canvas, which will add them to the associated actor. (Core Foundry won't let you drag an AE that is inherited from an Item on the actor.)
+
+## 2.4.3
+
 - Ensure a newly created ActiveEffect has the correct enabled/disabled state based on the owning item's state (active/archived).
 - Simplify code for applying effects in Tags & Recursions (since `CONFIG.ActiveEffect.legacyTransferral = false`)
 - Disable the enable/disable button on an effect if it was transferred onto the Actor from an item (e.g. tag). It's enabled state should always match the archived/enabled state of the owning Item.

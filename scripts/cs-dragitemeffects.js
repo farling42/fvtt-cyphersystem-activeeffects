@@ -59,3 +59,37 @@ async function ItemSheet_onDrop(event) {
   // create the new effect but make the 'origin' the new parent item
   return ActiveEffect.create(effect.toObject(), {parent: item});
 }
+
+/*
+ * ALLOW ITEM AND ACTIVE EFFECTS TO BE DROPPED ONTO TOKENS ON THE CANVAS.
+ */
+async function Canvas_dropData(canvas, data) {
+  if (data.type === "ActiveEffect" || data.type === "Item") {
+    // See if the drop is going to happen on an Actor token (see `targetObjects`)
+    const desttokens = canvas.tokens.placeables.filter(token => {
+      if ( !game.user.isGM && !token.visible) return false;   // GMs can drop onto hidden tokens
+      if ( !token.isOwner ) return false;
+      if ( data.uuid.startsWith(token.actor.uuid)) return false;  // no drop on self
+      return Number.between(data.x, token.x, token.x + token.w) && 
+             Number.between(data.y, token.y, token.y + token.h);
+    });
+    if (!desttokens?.length) return true;
+    const object = fromUuidSync(data.uuid);
+    desttokens.forEach(token => {
+      if (!token.actor) return;
+      if (data.type === "ActiveEffect") {
+        console.debug(`Active Effect '${object.name}' added to '${token.actor.name}'`)
+        ActiveEffect.create(object.toObject(), {parent: token.actor});
+      } else {
+        console.debug(`Item '${object.name}' added to '${token.actor.name}'`)
+        Item.create(object.toObject(), {parent: token.actor});
+      }
+    })
+    // We consumed the drop
+    return false;
+  }
+  // We didn't handle the drop
+  return true;
+}
+
+Hooks.on("dropCanvasData", Canvas_dropData)
