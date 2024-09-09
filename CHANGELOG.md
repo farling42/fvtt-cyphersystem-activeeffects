@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.5.2
+
+- Do not add our own statuses field to the Active Effects window in Foundry 12 (since F12 now does it itself).
+- Mark verified on Foundry 12 & Cypher 3.1.0
+
 ## 2.5.1
 
 - Get statuses working on Foundry 11
