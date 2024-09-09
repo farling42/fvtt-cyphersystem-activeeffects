@@ -224,21 +224,21 @@ async function ActiveEffectDialog_render(app, html, data) {
   effects.forEach(f => f.name = game.i18n.localize(f.name));
   const sorted_effects = effects.toSorted((a, b) => a.name.localeCompare(b.name))
 
-  let status;
-  let options = "";
-  for (const status of sorted_effects) {
-    options += `<option value="${status.id}"${data.effect.statuses.has(status.id) ? " selected" : ""}>${status.name}</option>`
-  }
-  console.log(`Effect window showing effect list: "${Array.from(data.effect.statuses).join(' ')}"`);
-  // "name" attribute of "select" element is the link that the form submit will use to update the Effect directly from select.value.
-  // "id" attribute links the "label" to the "select" element.
-  status = $(`
+  if (game.release.generation < 12) {
+    let options = "";
+      for (const status of sorted_effects) {
+      options += `<option value="${status.id}"${data.effect.statuses.has(status.id) ? " selected" : ""}>${status.name}</option>`
+    }
+    console.log(`Effect window showing effect list: "${Array.from(data.effect.statuses).join(' ')}"`);
+    // "name" attribute of "select" element is the link that the form submit will use to update the Effect directly from select.value.
+    // "id" attribute links the "label" to the "select" element.
+    const status = $(`
     <div class="form-group">
     <label for="statusEffects">Status Effect</label>
     <select name="statuses" multiple id="statusEffects"${app.isEditable ? '' : ' disabled'}>${options}</select>
     </div>`);
-
-  html.find('div.form-group.stacked').after(status);
+    html.find('div.form-group.stacked').after(status);
+  }
 
   if (!app._minimized) {
     let pos = app.position;
