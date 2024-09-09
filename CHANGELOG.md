@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.5.1
+
+- Get statuses working on Foundry 11
+
 ## 2.5.0
 
 - Allow drag of Items and Active Effects onto Tokens on the canvas, which will add them to the associated actor. (Core Foundry won't let you drag an AE that is inherited from an Item on the actor.)
