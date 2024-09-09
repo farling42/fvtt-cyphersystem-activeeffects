@@ -225,7 +225,7 @@ async function ActiveEffectDialog_render(app, html, data) {
   const sorted_effects = effects.toSorted((a, b) => a.name.localeCompare(b.name))
 
   let status;
-  let options = `<option value="" ${(data.effect.statuses.size === 0) ? " selected" : ""}></option>`;
+  let options = "";
   for (const status of sorted_effects) {
     options += `<option value="${status.id}"${data.effect.statuses.has(status.id) ? " selected" : ""}>${status.name}</option>`
   }
