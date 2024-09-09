@@ -54,8 +54,7 @@ async function my_update_actor(actor, changes, options, userId) {
                     createData.statuses = [effectData.id];
 
                     delete createData.id;
-                    const cls = getDocumentClass("ActiveEffect");
-                    await cls.create(createData, {parent: actor, fromActor:true});
+                    await getDocumentClass("ActiveEffect").create(createData, {parent: actor, fromActor:true});
                 }
             } else {
                 // Remove the effect if it is on the actor
