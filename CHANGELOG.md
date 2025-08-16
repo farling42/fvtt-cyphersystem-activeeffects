@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.6.0
+## 13.0.0
 
 - Update to be compatible with Foundry 13 and Cypher System 3.3.2
 
