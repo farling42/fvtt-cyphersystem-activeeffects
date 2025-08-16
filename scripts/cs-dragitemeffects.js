@@ -13,7 +13,7 @@ Hooks.once('ready', async function() {
 function ItemSheet_createDragDropHandler(wrapper) {
   let result = wrapper();
   if (!result) result = [];
-  const dragDrop = new DragDrop({
+  const dragDrop = new foundry.applications.ux.DragDrop.implementation({
       dragSelector: '[data-effect-id]',
       dropSelector: null,
       permissions: { dragstart: ItemSheet_canDragStart.bind(this), dragdrop: ItemSheet_canDragDrop.bind(this) },
@@ -47,7 +47,7 @@ function ItemSheet_onDragStart(event) {
 
 async function ItemSheet_onDrop(event) {
   const item = this.item;
-  const data = TextEditor.getDragEventData(event);
+  const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
 
   if (data.type !== 'ActiveEffect') return false;
   if (!item.isOwner) return false;

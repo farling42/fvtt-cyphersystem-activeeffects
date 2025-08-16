@@ -4,8 +4,8 @@
   "description": "Adds support for Active Effects to Actors and Items for the Cypher System game system",
   "version": "#{VERSION}#",
   "compatibility": {
-    "minimum": 11,
-    "verified": 12
+    "minimum": 13,
+    "verified": 13
   },
   "authors": [
     {
@@ -25,8 +25,8 @@
         "type": "system",
         "compatibility": [
           {
-            "minimum": "2.9.0",
-            "verified": "3.1.0"
+            "minimum": "3.3.2",
+            "verified": "3.3.2"
           }
         ]
       }

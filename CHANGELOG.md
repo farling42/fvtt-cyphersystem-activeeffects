@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.6.0
+
+- Update to be compatible with Foundry 13 and Cypher System 3.3.2
+
 ## 2.5.2
 
 - Do not add our own statuses field to the Active Effects window in Foundry 12 (since F12 now does it itself).

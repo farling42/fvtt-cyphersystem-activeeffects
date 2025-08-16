@@ -10,7 +10,7 @@ Hooks.once('init', async function () {
   CONFIG.ActiveEffect.legacyTransferral = false;
 })
 
-Hooks.on("renderChatMessage", my_renderChatMessage);
+Hooks.on("renderChatMessageHTML", my_renderChatMessageHTML);
 Hooks.on("renderActiveEffectConfig", ActiveEffectDialog_render);
 
 Hooks.once('ready', async function () {
@@ -23,13 +23,13 @@ Hooks.once('ready', async function () {
 // when an actor sheet is re-rendered.
 
 Hooks.once('ready', async function () {
-  libWrapper.register(MODULE_NAME, "ActorSheet.prototype.getData", sheet_getData, libWrapper.WRAPPER)
-  libWrapper.register(MODULE_NAME, "ActorSheet.prototype._renderInner", sheet_renderInner, libWrapper.WRAPPER)
+  libWrapper.register(MODULE_NAME, "foundry.appv1.sheets.ActorSheet.prototype.getData", sheet_getData, libWrapper.WRAPPER)
+  libWrapper.register(MODULE_NAME, "foundry.appv1.sheets.ActorSheet.prototype._renderInner", sheet_renderInner, libWrapper.WRAPPER)
 
-  libWrapper.register(MODULE_NAME, "ItemSheet.prototype.getData", sheet_getData, libWrapper.WRAPPER)
-  libWrapper.register(MODULE_NAME, "ItemSheet.prototype._renderInner", sheet_renderInner, libWrapper.WRAPPER)
+  libWrapper.register(MODULE_NAME, "foundry.appv1.sheets.ItemSheet.prototype.getData", sheet_getData, libWrapper.WRAPPER)
+  libWrapper.register(MODULE_NAME, "foundry.appv1.sheets.ItemSheet.prototype._renderInner", sheet_renderInner, libWrapper.WRAPPER)
 
-  libWrapper.register(MODULE_NAME, "ActiveEffectConfig.prototype._getSubmitData", ActiveEffectDialog_getSubmitData, libWrapper.WRAPPER)
+  libWrapper.register(MODULE_NAME, "foundry.applications.sheets.ActiveEffectConfig.prototype._prepareSubmitData", ActiveEffectConfig_prepareSubmitData, libWrapper.WRAPPER)
 
   // Option to sort effects alphabetically
   game.settings.register(MODULE_NAME, SETTING_SORT_EFFECTS, {
@@ -115,7 +115,7 @@ async function sheet_renderInner(wrapper, data) {
   inner.find('nav.sheet-tabs a[data-tab="settings"]').before(`<a class="item" data-tab="effects" style="flex: 0 0 45px;" title="${game.i18n.localize('DOCUMENT.ActiveEffects')}"><i class="fa-solid fa-sparkles"></i></a>`);
 
   // Add the details of the FX tab
-  inner.find('section.sheet-body').append(await renderTemplate(EFFECT_TEMPLATE, data));
+  inner.find('section.sheet-body').append(await foundry.applications.handlebars.renderTemplate(EFFECT_TEMPLATE, data));
 
   // Add event handlers for the stuff we've added to the FX tab
   inner.find('.effect-toggle').on('click', ev => {
@@ -139,7 +139,7 @@ async function sheet_renderInner(wrapper, data) {
   // Provide support for the button in the active effects tab.
   inner.find('.effect-add').on('click', ev => {
     getDocumentClass("ActiveEffect").create({
-      label: game.i18n.format('DOCUMENT.New', { type: game.i18n.localize('DOCUMENT.ActiveEffect') }),
+      name: game.i18n.format('DOCUMENT.New', { type: game.i18n.localize('DOCUMENT.ActiveEffect') }),
       icon: "icons/svg/aura.svg",
       transfer: true,
     }, { parent: thisdoc }).then(effect => effect?.sheet?.render(true));
@@ -171,7 +171,7 @@ async function local_transfer_effect(fxlist) {
 }
 
 
-function my_renderChatMessage(message, html, data) {
+function my_renderChatMessageHTML(message, html, data) {
   // If there's no item involved in the chat message, then don't do anything.
   const itemid = message.flags?.data?.itemID;
   if (!itemid) return;
@@ -182,8 +182,8 @@ function my_renderChatMessage(message, html, data) {
   const fxlist = item.effects.filter(ae => ae.transfer !== true && (!ae.flags?.dae?.selfTargetAlways && !ae.flags?.dae?.selfTarget));
   if (!fxlist?.length) return;
 
-  html.find('.chat-card-buttons').prepend(`<a class="transferFX" title="${game.i18n.localize('CSACTIVEEFFECTS.TransferToTarget')}"><i class="fas fa-person-rays"></i></a>`)
-  html.find('a.transferFX').on('click', async (ev) => {
+  html.querySelector('.chat-card-buttons')?.prepend(`<a class="transferFX" title="${game.i18n.localize('CSACTIVEEFFECTS.TransferToTarget')}"><i class="fas fa-person-rays"></i></a>`)
+  html.querySelector('a.transferFX')?.addEventListener('click', async (ev) => {
     //console.log(`copy effects from ${item.uuid} to`, game.user.targets)
     if (game.modules.get('dae')?.active) {
       console.debug(`CS-AE | Calling DAE to apply effects for '${item.name}'`)
@@ -248,17 +248,16 @@ async function ActiveEffectDialog_render(app, html, data) {
 }
 
 
-function ActiveEffectDialog_getSubmitData(wrapper, updateData) {
-  let data = wrapper(updateData);
+function ActiveEffectConfig_prepareSubmitData(wrapper, event, form, formData, updateData) {
   // Ensure it gets the correct state based on the parent item.
-  const owner = this.object?.parent;
+  const data = wrapper(event, form, formData, updateData);
+  const owner = this.document?.parent;
   if (owner) {
     if (owner.type === 'tag' || owner.type === 'recursion') {
       if (!owner.system.active) data.disabled = true;
     } else {
       if (owner.system.archived) data.disabled = true;
     }
-
   }
   return data;
 }

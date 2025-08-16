@@ -1,8 +1,6 @@
 //
 // Automatically update the VALUE of a pool when the MAX is changed.
 //
-// Ideally we would hook onto preUpdateActor, but this is not triggered when an ActiveEffect changes the MAX value.
-//
 const MODULE_NAME = "cyphersystem-activeeffects";
 const SETTING = "adjustValueFromMax";
 

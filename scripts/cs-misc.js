@@ -13,7 +13,7 @@ Hooks.once("init", () => {
     });
 
     if (game.settings.get(MODULE_NAME, SETTING)) {
-        libWrapper.register(MODULE_NAME, "Hotbar.prototype._createDocumentSheetToggle", Hotbar_createDocumentSheetToggle,  libWrapper.WRAPPER)
+        libWrapper.register(MODULE_NAME, "foundry.applications.ui.Hotbar.prototype._createDocumentSheetToggle", Hotbar_createDocumentSheetToggle,  libWrapper.WRAPPER)
     }
 });
 
