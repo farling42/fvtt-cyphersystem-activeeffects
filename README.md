@@ -47,15 +47,15 @@ There is a module option which apply any change in a pool's maximum value also t
 
 This is a hard-dependency that must be enabled. It allows this module to hook into and change some core functionality.
 
-### [Active Token Effects](https://foundryvtt.com/packages/ATL) _(optional)_
+### [Active Token Effects](https://foundryvtt.com/packages/ATL) _(optional for V13 and earlier)_
 
 When **Active Token Effects** is installed, then the "ATL." prefix can be put on a token attribute in order for the effect to modify the token on the owning actor.
 
-### [Times Up](https://foundryvtt.com/packages/times-up) _(optional)_
+### [Times Up](https://foundryvtt.com/packages/times-up) _(optional for V13 and earlier)_
 
 Allows effects to automatically expire when their duration has been reached - provides an option to disable the effect, rather than delete it.
 
-### [Dynamic Active Effects](https://foundryvtt.com/packages/dae) _(optional)_
+### [Dynamic Active Effects](https://foundryvtt.com/packages/dae) _(optional, but unlikely to work any more)_
 
 Allows many more effects to be created and is more flexible when transferring effects to targets. (Note that version 10.0.35 and 10.0.36 do not work with any system other than dnd5e)
 
